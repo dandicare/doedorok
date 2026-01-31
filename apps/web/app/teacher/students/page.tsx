@@ -58,6 +58,30 @@ const sampleStudents = [
     grade: "1학년",
     class: "1반",
   },
+  {
+    id: "8",
+    name: "김단디 남 8",
+    department: "자폐 스펙트럼",
+    school: "단디초등학교",
+    grade: "1학년",
+    class: "1반",
+  },
+  {
+    id: "9",
+    name: "김단디 남 8",
+    department: "자폐 스펙트럼",
+    school: "단디초등학교",
+    grade: "1학년",
+    class: "1반",
+  },
+  {
+    id: "10",
+    name: "김단디 남 8",
+    department: "자폐 스펙트럼",
+    school: "단디초등학교",
+    grade: "1학년",
+    class: "1반",
+  },
 ];
 
 export default function TeacherStudentsPage() {

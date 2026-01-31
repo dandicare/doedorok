@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from 'tailwind-variants';
 
 type ToggleChipProps = {
@@ -8,6 +8,7 @@ type ToggleChipProps = {
   className?: string;
   height?: string;
   onToggle?: (isActive: boolean) => void;
+  variant?: 'default' | 'activity';
 };
 
 export function ToggleChip({
@@ -17,8 +18,13 @@ export function ToggleChip({
   className,
   height = 'auto',
   onToggle,
+  variant = 'default',
 }: ToggleChipProps) {
   const [isActive, setIsActive] = useState(defaultActive);
+
+  useEffect(() => {
+    setIsActive(defaultActive);
+  }, [defaultActive]);
 
   const handleClick = () => {
     const newActive = !isActive;
@@ -27,11 +33,12 @@ export function ToggleChip({
   };
 
   const base = cn(
-    'inline-flex items-center gap-2 py-4 px-2 rounded-[36px] transition-colors duration-200 cursor-pointer',
-    'text-[14px] whitespace-nowrap w-fit',
+    'inline-flex items-center gap-1 py-2 px-3 transition-colors duration-200 cursor-pointer shadow-sm w-full',
+    'text-[12px] whitespace-nowrap border',
+    variant === 'activity' ? 'rounded-full' : 'rounded-2xl',
     isActive
-      ? 'bg-[#FF8C00] text-white'
-      : 'bg-[#D9D9D9] text-white',
+      ? 'bg-[#FF8C00] text-white border-[#FF8C00]'
+      : 'bg-white text-[#666] border-[#E0E0E0]',
   );
 
   return (
