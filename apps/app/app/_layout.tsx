@@ -71,6 +71,17 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="teacher/write-record"
+            options={{
+              headerShown: true,
+              title: '수업 후 일괄기록',
+              headerLeft: () => <HeaderBackButton />,
+              presentation: 'card',
+              gestureEnabled: true,
+              fullScreenGestureEnabled: true,
+            }}
+          />
+          <Stack.Screen
             name="example"
             options={{
               headerShown: true,
