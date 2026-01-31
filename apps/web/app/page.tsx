@@ -49,6 +49,14 @@ export default function Home(): React.JSX.Element {
     }
   }, [router]);
 
+  const onGoTeacherWriteRecord = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("teacher/write-record");
+    } else {
+      router.push("/teacher/write-record");
+    }
+  }, [router]);
+
   return (
     <main className="min-h-screen w-full flex flex-col gap-4 items-center justify-center p-6">
       <Button onClick={onGoParentMorningCheckin}>학부모 페이지</Button>
@@ -56,6 +64,7 @@ export default function Home(): React.JSX.Element {
       <Button onClick={onGoStudentProfile}>학생 프로필 페이지</Button>
       <Button onClick={onGoStudentRecords}>학생들 기록</Button>
       <Button onClick={onGoTeacherStudents}>내가 맡는 아이들</Button>
+      <Button onClick={onGoTeacherWriteRecord}>수업 후 일괄기록 페이지</Button>
     </main>
   );
 }
