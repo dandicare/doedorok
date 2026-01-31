@@ -17,6 +17,14 @@ export default function Home(): React.JSX.Element {
     }
   }, [router]);
 
+  const onGoParentAfterMealCheckin = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("parent/after-meal-checkin");
+    } else {
+      router.push("/parent/after-meal-checkin");
+    }
+  }, [router]);
+
   const onGoStudentProfile = useCallback(() => {
     if (isInReactNativeWebView()) {
       navigateNative("student/profile");
@@ -36,6 +44,7 @@ export default function Home(): React.JSX.Element {
   return (
     <main className="min-h-screen w-full flex flex-col gap-4 items-center justify-center p-6">
       <Button onClick={onGoParentMorningCheckin}>학부모 페이지</Button>
+      <Button onClick={onGoParentAfterMealCheckin}>식사 후 체크인</Button>
       <Button onClick={onGoStudentProfile}>학생 프로필 페이지</Button>
       <Button onClick={onGoTeacherStudents}>내가 맡는 아이들</Button>
     </main>
