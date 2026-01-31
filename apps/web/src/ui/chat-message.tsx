@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { cn } from "tailwind-variants";
 
 interface ChatMessageProps {
@@ -9,6 +10,8 @@ interface ChatMessageProps {
   statusItems?: string[];
   isRead?: boolean;
   readTime?: string;
+  role?: string;
+  avatarSrc?: string;
   variant?: "card" | "list";
   className?: string;
 }
@@ -21,10 +24,23 @@ export function ChatMessage({
   statusItems = [],
   isRead = false,
   readTime,
+  role,
+  avatarSrc,
   variant = "card",
   className,
 }: ChatMessageProps) {
   const chips = statusItems.filter(Boolean);
+  const inferredRole =
+    role ?? timestamp.match(/^(도우미|선생님|보호자)\b/u)?.[1] ?? null;
+  const resolvedAvatarSrc =
+    avatarSrc ??
+    (inferredRole === "도우미"
+      ? "/people1.svg"
+      : inferredRole === "선생님"
+        ? "/people2.svg"
+        : inferredRole === "보호자"
+          ? "/people3.svg"
+          : undefined);
 
   const renderChip = (raw: string, index: number) => {
     const text = raw.trim();
@@ -65,7 +81,20 @@ export function ChatMessage({
   return (
     <article className={cn(wrapperClassName, className)}>
       <div className="flex gap-3">
-        <div className="h-12 w-12 shrink-0 rounded-full bg-[#D9D9D9]" />
+        {resolvedAvatarSrc ? (
+          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-[#F3F4F6]">
+            <Image
+              src={resolvedAvatarSrc}
+              alt={`${inferredRole ?? "사용자"} 프로필`}
+              fill
+              sizes="48px"
+              className="object-cover"
+              draggable={false}
+            />
+          </div>
+        ) : (
+          <div className="h-12 w-12 shrink-0 rounded-full bg-[#D9D9D9]" />
+        )}
 
         <div className="min-w-0 flex-1">
           <div className="typo-label-m mb-1 flex items-center gap-2 text-[#9CA3AF]">

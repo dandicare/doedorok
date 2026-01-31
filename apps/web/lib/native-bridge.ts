@@ -4,6 +4,13 @@ export type NativeBridgeMessage =
       screen: string;
     }
   | {
+      type: "GO_BACK";
+    }
+  | {
+      type: "AFTER_MEAL_CHECKIN_ADDED";
+      record: unknown;
+    }
+  | {
       type: string;
       [key: string]: unknown;
     };
@@ -38,3 +45,6 @@ export function navigateNative(screen: string) {
   return postToNative({ type: "NAVIGATE", screen });
 }
 
+export function goBackNative() {
+  return postToNative({ type: "GO_BACK" });
+}

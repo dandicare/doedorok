@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 import { parseNativeBridgeMessage, screenToPathname } from '@/lib/native-bridge';
+import { postMessageToWebView, registerWebView, unregisterWebView } from '@/lib/webview-registry';
 import {
   buildUrl,
   getBaseUrl,
@@ -19,6 +20,8 @@ type Props = {
   initialPath?: string;
   /** initialUrl을 직접 주면 baseUrl/path보다 우선합니다. */
   initialUrl?: string;
+  /** 네이티브에서 다른 WebView로 메시지 전달이 필요할 때 쓰는 id */
+  webViewId?: string;
   /** 웹 → 네이티브 화면 이동(postMessage) 허용 여부 */
   enableBridge?: boolean;
   /**
@@ -33,6 +36,7 @@ type Props = {
 export function WebViewScreen({
   initialPath,
   initialUrl,
+  webViewId,
   enableBridge = false,
   loadingOverlay = 'never',
 }: Props) {
@@ -50,11 +54,32 @@ export function WebViewScreen({
   const [showLoadingOverlay, setShowLoadingOverlay] = useState(loadingOverlay === 'always');
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!webViewId) return;
+    registerWebView(webViewId, webViewRef);
+    return () => unregisterWebView(webViewId);
+  }, [webViewId]);
+
   const tryNavigateFromMessage = useCallback((data: unknown) => {
     if (!enableBridge) return false;
 
     const msg = parseNativeBridgeMessage(data);
-    if (!msg || msg.type !== 'NAVIGATE') return false;
+    if (!msg) return false;
+
+    // Web -> Native: 화면 닫기(뒤로가기)
+    if ((msg as any).type === 'GO_BACK') {
+      router.back();
+      return true;
+    }
+
+    // Web -> Native: 다른 WebView(예: 피드)로 데이터 전달
+    if ((msg as any).type === 'AFTER_MEAL_CHECKIN_ADDED') {
+      // feed 스크린은 native에서 parent/feed로 고정 id 사용
+      postMessageToWebView('parent/feed', JSON.stringify(msg));
+      return true;
+    }
+
+    if ((msg as any).type !== 'NAVIGATE') return false;
 
     const screen = String((msg as any).screen ?? '').trim();
     const pathname = screenToPathname(screen);

@@ -3,6 +3,6 @@ import React from "react";
 import { WebViewScreen } from "@/components/webview-screen";
 
 export default function ParentFeedScreen() {
-  return <WebViewScreen initialPath="/parent/feed" enableBridge />;
+  return <WebViewScreen webViewId="parent/feed" initialPath="/parent/feed" enableBridge />;
 }
 
