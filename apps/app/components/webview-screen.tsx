@@ -120,7 +120,6 @@ export function WebViewScreen({ initialPath, initialUrl, enableBridge = false }:
         {isLoading ? (
           <View pointerEvents="none" style={styles.loadingOverlay}>
             <ActivityIndicator size="large" />
-            <Text style={styles.loadingText}>웹을 불러오는 중…</Text>
           </View>
         ) : null}
 
