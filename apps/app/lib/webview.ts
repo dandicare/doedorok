@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 
-export const DEFAULT_WEB_URL = 'http://10.10.150.243:3000';
+export const DEFAULT_WEB_URL = 'http://10.10.141.187:3000';
 
 export function getBaseUrl() {
   const envUrl = process.env.EXPO_PUBLIC_WEB_URL;
