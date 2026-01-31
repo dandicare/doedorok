@@ -44,6 +44,19 @@ export default function Feed() {
       return e.data ?? e.nativeEvent?.data;
     };
 
+    const applyRecordWithDelay = (record: AfterMealCheckinRecord, delayMs: number) => {
+      window.setTimeout(() => {
+        setAfterMeal((prev) => {
+          if (prev.some((p) => p.id === record.id)) return prev;
+          return [record, ...prev];
+        });
+        addAfterMealCheckin(record);
+        setAnimateId(record.id);
+        setAnimateToken((t) => t + 1);
+        window.setTimeout(() => setAnimateId(null), 1600);
+      }, delayMs);
+    };
+
     const onMessage = (event: MessageEvent | unknown) => {
       const raw = getRawMessage(event);
       if (typeof raw !== 'string') return;
@@ -60,14 +73,19 @@ export default function Feed() {
       if (!record || typeof record !== 'object' || !('id' in record)) return;
       if (!record.id) return;
 
-      setAfterMeal((prev) => {
-        if (prev.some((p) => p.id === record.id)) return prev;
-        return [record, ...prev];
-      });
-      addAfterMealCheckin(record);
-      setAnimateId(record.id);
-      setAnimateToken((t) => t + 1);
-      window.setTimeout(() => setAnimateId(null), 450);
+      // 앱(WebView)에서는 "피드 화면이 보인 다음"에 추가돼야 애니메이션이 느껴져요.
+      // visible이면 0.5초 기다렸다가, 아니면 visible 될 때까지 기다렸다가 0.5초 후에 넣습니다.
+      if (document.visibilityState === 'visible') {
+        applyRecordWithDelay(record, 500);
+        return;
+      }
+
+      const onVisOnce = () => {
+        if (document.visibilityState !== 'visible') return;
+        document.removeEventListener('visibilitychange', onVisOnce);
+        applyRecordWithDelay(record, 500);
+      };
+      document.addEventListener('visibilitychange', onVisOnce);
     };
 
     window.addEventListener('message', onMessage as EventListener);

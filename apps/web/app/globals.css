@@ -100,7 +100,7 @@ body {
   .dc-slide-in-ltr {
     will-change: transform, opacity;
     overflow: hidden;
-    animation: dcSlideInLtr 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: dcSlideInLtr 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   @media (prefers-reduced-motion: reduce) {

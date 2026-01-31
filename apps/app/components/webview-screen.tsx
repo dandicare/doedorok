@@ -75,7 +75,11 @@ export function WebViewScreen({
     // Web -> Native: 다른 WebView(예: 피드)로 데이터 전달
     if ((msg as any).type === 'AFTER_MEAL_CHECKIN_ADDED') {
       // feed 스크린은 native에서 parent/feed로 고정 id 사용
-      postMessageToWebView('parent/feed', JSON.stringify(msg));
+      // 화면 전환(뒤로가기) 직후에 메시지가 도착해야 "추가 애니메이션"이 살아있어요.
+      // (피드 WebView가 아직 화면에 보이기 전이면 애니메이션이 체감이 거의 없음)
+      setTimeout(() => {
+        postMessageToWebView('parent/feed', JSON.stringify(msg));
+      }, 500);
       return true;
     }
 
