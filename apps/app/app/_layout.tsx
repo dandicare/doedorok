@@ -41,7 +41,7 @@ export default function RootLayout() {
             name="parent/feed"
             options={{
               headerShown: true,
-              title: '피드',
+              title: '되도록',
               headerLeft: () => <HeaderBackButton />,
               presentation: 'card',
               gestureEnabled: true,
