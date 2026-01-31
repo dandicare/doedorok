@@ -93,29 +93,6 @@ export function SwipeFlipCard({
                     { emoji: "👏", text: "작은 성공을 자주 칭찬해 주세요" },
                 ],
             },
-            {
-                id: "card-6",
-                name: "한유진",
-                genderAge: "여 9",
-                diagnosis: "주의집중 어려움",
-                schoolClass: "단디초등학교 2학년 2반",
-                noteTitle: "한유진 어린이는 오늘...",
-                noteBody: "아침에 약 복용을 했어요.\n수업 중 집중이 흐트러지면 한 번만 상기해 주세요.",
-                tags: [{ emoji: "🎯", text: "짧게 상기/리마인드가 효과적" }],
-            },
-            {
-                id: "card-7",
-                name: "문서준",
-                genderAge: "남 8",
-                diagnosis: "정서 조절 어려움",
-                schoolClass: "단디초등학교 1학년 5반",
-                noteTitle: "문서준 어린이는 오늘...",
-                noteBody: "오늘은 감정 기복이 있을 수 있어요.\n감정이 올라오면 조용한 공간에서 2~3분 쉬면 좋아요.",
-                tags: [
-                    { emoji: "🌿", text: "조용한 공간에서 잠깐 휴식" },
-                    { emoji: "🗣️", text: "짧고 명확한 안내" },
-                ],
-            },
         ],
         []
     );
@@ -354,6 +331,7 @@ export function SwipeFlipCard({
                             if (gone[card.id]) return null;
                             const isTop = idx === currentIndex;
                             const isFlipped = Boolean(flipById[card.id]);
+                            const bgImageUrl = `/image${idx + 1}.png`;
                             const depth = Math.max(0, currentIndex - idx);
                             // 스택은 최대 3장(현재 + 뒤 2장)까지만 보이게
                             const maxVisibleDepth = 2;
@@ -433,6 +411,10 @@ export function SwipeFlipCard({
                                                         isTop ? "shadow-md" : "shadow-sm",
                                                     ].join(" ")}
                                                     style={{
+                                                        backgroundImage: `url(${bgImageUrl})`,
+                                                        backgroundSize: "cover",
+                                                        backgroundPosition: "center",
+                                                        backgroundRepeat: "no-repeat",
                                                         backfaceVisibility: "hidden",
                                                         WebkitBackfaceVisibility: "hidden",
                                                         transform: "translateZ(0)",
@@ -440,16 +422,16 @@ export function SwipeFlipCard({
                                                 >
                                                     <div className="flex-1" />
                                                     <div className="px-6 pb-6">
-                                                        <div className="text-[#11181C] flex items-center gap-2">
+                                                        <div className="text-white drop-shadow-md flex items-center gap-2">
                                                             <span className="typo-title-s">
                                                                 {card.name}
                                                             </span>
-                                                            <span className="typo-body-xl-medium">
+                                                            <span className="typo-body-xl-regular">
                                                                 {card.genderAge}
                                                             </span>
                                                         </div>
-                                                        <div className="mt-2 typo-body-l-r text-[#11181C]">{card.diagnosis}</div>
-                                                        <div className="mt-1 typo-body-l-r text-[#11181C]">{card.schoolClass}</div>
+                                                        <div className="mt-2 typo-body-m-medium text-white drop-shadow-md">{card.diagnosis}</div>
+                                                        <div className="mt-1 typo-body-m-medium text-white drop-shadow-md">{card.schoolClass}</div>
                                                     </div>
                                                 </div>
 
@@ -460,14 +442,18 @@ export function SwipeFlipCard({
                                                         isTop ? "shadow-md" : "shadow-sm",
                                                     ].join(" ")}
                                                     style={{
+                                                        backgroundImage: `url(${bgImageUrl})`,
+                                                        backgroundSize: "cover",
+                                                        backgroundPosition: "center",
+                                                        backgroundRepeat: "no-repeat",
                                                         backfaceVisibility: "hidden",
                                                         WebkitBackfaceVisibility: "hidden",
                                                         transform: "translateZ(0)",
                                                     }}
                                                 >
-                                                    <div className="typo-body-m-r text-[#9BA1A6]">{card.noteTitle}</div>
-                                                    <div className="mt-4 flex-1 rounded-2xl bg-white p-4">
-                                                        <div className="typo-body-m-r text-[#9BA1A6] whitespace-pre-line leading-6">
+                                                    <div className="typo-body-m-r text-white drop-shadow-md">{card.noteTitle}</div>
+                                                    <div className="mt-4 flex-1 rounded-2xl bg-black/35 backdrop-blur-sm p-4">
+                                                        <div className="typo-body-m-r text-white drop-shadow-md whitespace-pre-line leading-6">
                                                             {card.noteBody}
                                                         </div>
                                                     </div>
