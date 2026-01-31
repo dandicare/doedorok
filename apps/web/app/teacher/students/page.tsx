@@ -1,7 +1,7 @@
 "use client";
 import { StudentList } from "../../../src/ui/student-list";
 
-const sampleStudents = [
+const sampleStudentsBase = [
   {
     id: "1",
     name: "김철수",
@@ -103,6 +103,11 @@ const sampleStudents = [
     class: "6반",
   },
 ];
+
+const sampleStudents = sampleStudentsBase.map((s, idx) => ({
+  ...s,
+  avatarUrl: `/image${(idx % 5) + 1}.png`,
+}));
 
 export default function TeacherStudentsPage() {
   return (
