@@ -5,6 +5,8 @@ import { cn } from "tailwind-variants";
 interface Student {
   id: string;
   name: string;
+  gender: string;
+  age: number;
   department: string;
   school: string;
   grade: string;
@@ -48,7 +50,7 @@ export function StudentList({
               onClick={() => onStudentClick?.(student)}
               className={cn(
                 "flex items-center p-4 bg-white rounded-xl shadow-sm",
-                "cursor-pointer hover:shadow-md transition-shadow"
+                "cursor-pointer hover:shadow-md transition-shadow",
               )}
             >
               {/* Avatar */}
@@ -59,7 +61,10 @@ export function StudentList({
               {/* Student Info */}
               <div className="flex-1">
                 <h3 className="text-lg text-gray-900 mb-1">
-                  <span className="font-semibold">김단디</span> <span className="font-light">남 8</span>
+                  <span className="font-semibold">{student.name}</span>{" "}
+                  <span className="font-light">
+                    {student.gender} {student.age}
+                  </span>
                 </h3>
                 <p className="text-sm text-gray-600 mb-1">
                   {student.department}
