@@ -8,14 +8,26 @@ export type NativeBridgeMessage =
       [key: string]: unknown;
     };
 
+type ReactNativeWebViewHandle = {
+  postMessage: (message: string) => void;
+};
+
+function getReactNativeWebView(): ReactNativeWebViewHandle | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as { ReactNativeWebView?: ReactNativeWebViewHandle };
+  return w.ReactNativeWebView ?? null;
+}
+
 export function isInReactNativeWebView() {
-  return typeof window !== "undefined" && Boolean((window as any).ReactNativeWebView);
+  return Boolean(getReactNativeWebView());
 }
 
 export function postToNative(message: NativeBridgeMessage) {
   if (!isInReactNativeWebView()) return false;
   try {
-    (window as any).ReactNativeWebView.postMessage(JSON.stringify(message));
+    const rnwv = getReactNativeWebView();
+    if (!rnwv) return false;
+    rnwv.postMessage(JSON.stringify(message));
     return true;
   } catch {
     return false;

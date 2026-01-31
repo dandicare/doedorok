@@ -13,7 +13,17 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="parent/morning-checkin"
+            options={{
+              headerShown: true,
+              title: '모닝 체크인',
+              presentation: 'card',
+              gestureEnabled: true,
+              fullScreenGestureEnabled: true,
+            }}
+          />
           <Stack.Screen
             name="example"
             options={{
