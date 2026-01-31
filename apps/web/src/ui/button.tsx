@@ -12,7 +12,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "text-button-l text-white inline-flex h-[60px] w-[354px] items-center justify-center rounded-[12px] px-5 py-3.5 bg-[#323232]";
+    "typo-button-l text-white inline-flex h-[60px] w-[354px] items-center justify-center rounded-[12px] px-5 py-3.5 bg-[#323232]";
 
   return (
     <button

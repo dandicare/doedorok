@@ -4,7 +4,7 @@ import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { isInReactNativeWebView, navigateNative } from "../lib/native-bridge";
 import { Button } from "../src/ui/button";
-
+import { EditableText } from "../src/ui/editable-text";
 export default function Home(): React.JSX.Element {
   const router = useRouter();
 
@@ -19,12 +19,13 @@ export default function Home(): React.JSX.Element {
   }, [router]);
 
   return (
-    <main className="min-h-screen grid place-items-center p-6">
+    <main className="min-h-screen w-full flex flex-col gap-4 items-center justify-center">
       <Button
         onClick={onGo}
       >
         예시 화면 열기
       </Button>
+      <EditableText defaultValue="123" />
     </main>
   );
 }

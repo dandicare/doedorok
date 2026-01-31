@@ -33,120 +33,109 @@ body {
   }
 
   /* Display */
-  .text-display-xl {
+  .typo-display-xl {
     font-size: 40px;
     line-height: 50px; /* 125% */
     font-weight: 700;
   }
-  .text-display-l {
+  .typo-display-l {
     font-size: 40px;
     line-height: 50px; /* 125% */
     font-weight: 700;
   }
-  .text-display-m {
+  .typo-display-m {
     font-size: 36px;
     line-height: 45px; /* 125% */
     font-weight: 700;
   }
-  .text-display-s {
+  .typo-display-s {
     font-size: 36px;
     line-height: 45px; /* 125% */
     font-weight: 600;
   }
 
   /* Title */
-  .text-title-xl {
+  .typo-title-xl {
     font-size: 32px;
     line-height: 40px; /* 125% */
     font-weight: 700;
   }
-  .text-title-l {
+  .typo-title-l {
     font-size: 28px;
     line-height: 35px; /* 125% */
     font-weight: 700;
   }
-  .text-title-m {
+  .typo-title-m {
     font-size: 24px;
     line-height: 30px; /* 125% */
     font-weight: 700;
   }
-  .text-title-s {
+  .typo-title-s {
     font-size: 20px;
     line-height: 25px; /* 125% */
     font-weight: 700;
   }
 
   /* Body */
-  .text-body-xl-m {
+  .typo-body-xl-m {
     font-size: 18px;
     line-height: 24px;
     font-weight: 500;
   }
-  .text-body-xl-r {
+  .typo-body-xl-r {
     font-size: 18px;
     line-height: 24px;
     font-weight: 400;
   }
-  .text-body-l-m {
+  .typo-body-l-m {
     font-size: 16px;
     line-height: 24px;
     font-weight: 500;
   }
-  .text-body-l-r {
+  .typo-body-l-r {
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
   }
-  .text-body-m-m {
+  .typo-body-m-m {
     font-size: 14px;
     line-height: 20px;
     font-weight: 500;
   }
-  .text-body-m-r {
+  .typo-body-m-r {
     font-size: 14px;
     line-height: 20px;
     font-weight: 400;
   }
 
   /* Button */
-  .text-button-l {
+  .typo-button-l {
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
   }
-  .text-button-m {
+  .typo-button-m {
     font-size: 14px;
     line-height: 20px;
     font-weight: 400;
   }
-  .text-button-s {
+  .typo-button-s {
     font-size: 12px;
     line-height: 20px;
     font-weight: 400;
   }
 
   /* Label */
-  .text-label-l {
+  .typo-label-l {
     font-size: 12px;
     line-height: 20px;
     font-weight: 500;
   }
-  .text-label-m {
+  .typo-label-m {
     font-size: 12px;
     line-height: 20px;
     font-weight: 400;
   }
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
 }
 
 .imgDark {
