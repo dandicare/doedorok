@@ -27,6 +27,17 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="parent/after-meal-checkin"
+            options={{
+              headerShown: true,
+              title: '식사 후 체크인',
+              headerLeft: () => <HeaderBackButton />,
+              presentation: 'card',
+              gestureEnabled: true,
+              fullScreenGestureEnabled: true,
+            }}
+          />
+          <Stack.Screen
             name="example"
             options={{
               headerShown: true,

@@ -7,7 +7,7 @@ import { Button } from "../src/ui/button";
 export default function Home(): React.JSX.Element {
   const router = useRouter();
 
-  const onGo = useCallback(() => {
+  const onGoMorning = useCallback(() => {
     // WebView(앱) 안이면: 네이티브 화면 전환 트리거(postMessage).
     // 브라우저면: 그냥 Next 라우팅으로 해당 페이지 이동.
     if (isInReactNativeWebView()) {
@@ -17,9 +17,18 @@ export default function Home(): React.JSX.Element {
     }
   }, [router]);
 
+  const onGoAfterMeal = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("parent/after-meal-checkin");
+    } else {
+      router.push("/parent/after-meal-checkin");
+    }
+  }, [router]);
+
   return (
     <main className="min-h-screen w-full flex flex-col gap-4 items-center justify-center p-6">
-      <Button onClick={onGo}>학부모 페이지</Button>
+      <Button onClick={onGoMorning}>모닝 체크인</Button>
+      <Button onClick={onGoAfterMeal}>식사 후 체크인</Button>
     </main>
   );
 }
