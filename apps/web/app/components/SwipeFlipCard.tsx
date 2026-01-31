@@ -4,7 +4,7 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import ReactCardFlip from "react-card-flip";
 import TinderCard from "react-tinder-card";
 
-const THRESHOLD_MS = 150;
+const THRESHOLD_MS = 200;
 
 // react-tinder-card v1.x 타입 export가 불완전할 수 있어 로컬에서 방향 타입을 정의합니다.
 export type SwipeDirection = "left" | "right" | "up" | "down";
@@ -147,9 +147,9 @@ export function SwipeFlipCard({
 
     function TagPill({ emoji, text }: { emoji: string; text: string }) {
         return (
-            <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-[#FF8C00] px-4 py-2">
+            <div className="inline-flex h-[28px] w-fit max-w-full items-center gap-2 rounded-xl bg-[#FF8C00] px-3 py-2">
                 <span className="text-[14px] leading-none">{emoji}</span>
-                <span className="typo-body-m-m text-white whitespace-nowrap">{text}</span>
+                <span className="text-[14px] font-semibold text-white whitespace-nowrap">{text}</span>
             </div>
         );
     }
@@ -291,7 +291,7 @@ export function SwipeFlipCard({
         <div className="w-full flex flex-col items-center justify-center">
 
 
-            <div className="relative w-[320px] h-[420px] mt-3">
+            <div className="relative w-[300px] h-[340px] mt-3">
                 {isComplete ? (
                     <div className="absolute inset-0 rounded-2xl bg-[#F2F2F2] shadow-lg border border-black/5 flex flex-col items-center justify-center px-6 text-center">
                         <div className="w-[72px] h-[72px] rounded-full bg-white flex items-center justify-center shadow-sm">
@@ -320,11 +320,11 @@ export function SwipeFlipCard({
                         {/* 스택 배경(밑 카드 느낌 강화) */}
                         <div
                             className="absolute inset-0 rounded-2xl bg-[#E9EAEB] border border-black/5"
-                            style={{ transform: "translate(10px, 36px) scale(0.86)" }}
+                            style={{ transform: "translate(0px, 28px) scale(0.88)" }}
                         />
                         <div
                             className="absolute inset-0 rounded-2xl bg-[#EEEFF0] border border-black/5"
-                            style={{ transform: "translate(6px, 20px) scale(0.93)" }}
+                            style={{ transform: "translate(0px, 14px) scale(0.94)" }}
                         />
 
                         {cards.map((card, idx) => {
@@ -339,7 +339,8 @@ export function SwipeFlipCard({
                             const cappedDepth = Math.min(depth, maxVisibleDepth);
                             // NOTE: 맨 위 카드의 box-shadow가 뒤 요소를 덮을 수 있어 오프셋을 넉넉히 잡아 "쌓임"을 확실히 보이게 합니다.
                             const stackTranslateY = cappedDepth * 18; // px
-                            const stackTranslateX = cappedDepth * 6; // px
+                            // 카드 사이즈 변경(300x340) 이후에도 뒤 카드가 정확히 가운데에 쌓이도록 X 오프셋은 제거합니다.
+                            const stackTranslateX = 0; // px
                             const stackScale = 1 - cappedDepth * 0.035;
                             const stackOpacity = 1 - cappedDepth * 0.14;
 
@@ -383,7 +384,7 @@ export function SwipeFlipCard({
                                             role="button"
                                             aria-pressed={isFlipped}
                                             tabIndex={0}
-                                            className="w-[320px] h-[420px] rounded-2xl select-none outline-none"
+                                            className="w-[300px] h-[340px] rounded-2xl select-none outline-none"
                                             style={{
                                                 WebkitTapHighlightColor: "transparent",
                                             }}
@@ -407,7 +408,7 @@ export function SwipeFlipCard({
                                                 {/* Front */}
                                                 <div
                                                     className={[
-                                                        "w-[320px] h-[420px] rounded-2xl overflow-hidden bg-[#F2F2F2] flex flex-col border border-black/5",
+                                                        "w-[300px] h-[340px] rounded-2xl overflow-hidden bg-[#F2F2F2] flex flex-col border border-black/5",
                                                         isTop ? "shadow-md" : "shadow-sm",
                                                     ].join(" ")}
                                                     style={{
@@ -421,7 +422,7 @@ export function SwipeFlipCard({
                                                     }}
                                                 >
                                                     <div className="flex-1" />
-                                                    <div className="px-6 pb-6">
+                                                    <div className="px-7.5 pb-7.5">
                                                         <div className="text-white drop-shadow-md flex items-center gap-2">
                                                             <span className="typo-title-s">
                                                                 {card.name}
@@ -438,26 +439,22 @@ export function SwipeFlipCard({
                                                 {/* Back */}
                                                 <div
                                                     className={[
-                                                        "w-[320px] h-[420px] rounded-2xl overflow-hidden bg-[#F2F2F2] p-6 flex flex-col border border-black/5",
+                                                        "w-[300px] h-[340px] rounded-2xl overflow-hidden bg-[#eee] px-[25px] py-[30px] flex flex-col border border-black/5",
                                                         isTop ? "shadow-md" : "shadow-sm",
                                                     ].join(" ")}
                                                     style={{
-                                                        backgroundImage: `url(${bgImageUrl})`,
-                                                        backgroundSize: "cover",
-                                                        backgroundPosition: "center",
-                                                        backgroundRepeat: "no-repeat",
                                                         backfaceVisibility: "hidden",
                                                         WebkitBackfaceVisibility: "hidden",
                                                         transform: "translateZ(0)",
                                                     }}
                                                 >
-                                                    <div className="typo-body-m-r text-white drop-shadow-md">{card.noteTitle}</div>
-                                                    <div className="mt-4 flex-1 rounded-2xl bg-black/35 backdrop-blur-sm p-4">
-                                                        <div className="typo-body-m-r text-white drop-shadow-md whitespace-pre-line leading-6">
+                                                    <div className="typo-label-l text-[#afafaf]">{card.noteTitle}</div>
+                                                    <div className="mt-[10px] flex-1 rounded-xl bg-white border border-black/5 p-4 max-h-[162px]">
+                                                        <div className="typo-label-l text-[#afafaf] whitespace-pre-line leading-6">
                                                             {card.noteBody}
                                                         </div>
                                                     </div>
-                                                    <div className="mt-4 flex flex-col gap-2">
+                                                    <div className="mt-[18px] flex flex-col gap-1">
                                                         {card.tags.map((t, i) => (
                                                             <TagPill key={`${card.id}-tag-${i}`} emoji={t.emoji} text={t.text} />
                                                         ))}
@@ -474,12 +471,15 @@ export function SwipeFlipCard({
             </div>
 
             {!isComplete ? (
-                <div className="mt-7 flex items-center justify-center gap-6">
+                <div className="mt-[38px] w-fit flex items-center justify-between gap-5">
                     <ActionButton kind="mail" />
                     <ActionButton kind="phone" />
                     <ActionButton kind="profile" />
                 </div>
-            ) : null}
+            ) : (
+                // 완료 상태에서는 아이콘을 숨기되, 레이아웃 높이를 유지해서 카드 위치가 "기존 카드 위치"와 동일하게 보이도록 합니다.
+                <div className="mt-7 w-[300px] h-[56px]" aria-hidden="true" />
+            )}
         </div>
     );
 }
