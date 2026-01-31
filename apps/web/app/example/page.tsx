@@ -1,4 +1,6 @@
-export default function ExamplePage() {
+import type { JSX } from "react";
+
+export default function ExamplePage(): JSX.Element {
   return (
     <main className="p-6">
       <h1 className="text-title-s m-0">예시 페이지</h1>

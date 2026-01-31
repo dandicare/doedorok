@@ -3,8 +3,9 @@
 import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { isInReactNativeWebView, navigateNative } from "../lib/native-bridge";
+import { Button } from "../src/ui/button";
 
-export default function Home() {
+export default function Home(): React.JSX.Element {
   const router = useRouter();
 
   const onGo = useCallback(() => {
@@ -19,12 +20,11 @@ export default function Home() {
 
   return (
     <main className="min-h-screen grid place-items-center p-6">
-      <button
+      <Button
         onClick={onGo}
-        className="text-button-l inline-flex cursor-pointer items-center justify-center rounded border border-black/10 bg-black px-5 py-3.5 text-white w-[200px]"
       >
         예시 화면 열기
-      </button>
+      </Button>
     </main>
   );
 }

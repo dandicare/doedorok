@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { JSX, ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -9,10 +10,16 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
-}>) {
+  children: ReactNode;
+}>): JSX.Element {
   return (
     <html lang="ko">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/variable/pretendardvariable.css"
+        />
+      </head>
       <body className="font-sans">{children}</body>
     </html>
   );
