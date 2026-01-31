@@ -5,9 +5,6 @@ export default function ExamplePage() {
       <p style={{ marginTop: 12, opacity: 0.8 }}>
         이 화면은 WebView에서 “새 앱 화면(스택)”으로 열린 웹 페이지입니다.
       </p>
-      <a href="/" style={{ display: "inline-block", marginTop: 16 }}>
-        메인으로 돌아가기
-      </a>
     </main>
   );
 }

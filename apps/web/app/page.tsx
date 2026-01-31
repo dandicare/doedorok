@@ -2,19 +2,16 @@
 
 import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { isInReactNativeWebView, navigateNative } from "../lib/native-bridge";
 
 export default function Home() {
   const router = useRouter();
 
   const onGo = useCallback(() => {
-    const hasRN = typeof window !== "undefined" && Boolean((window as any).ReactNativeWebView);
-
     // WebView(앱) 안이면: 네이티브 화면 전환 트리거(postMessage).
     // 브라우저면: 그냥 Next 라우팅으로 /example 이동.
-    if (hasRN) {
-      (window as any).ReactNativeWebView.postMessage(
-        JSON.stringify({ type: "NAVIGATE", screen: "example" }),
-      );
+    if (isInReactNativeWebView()) {
+      navigateNative("example");
     } else {
       router.push("/example");
     }
