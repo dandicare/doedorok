@@ -114,6 +114,9 @@ export function WebViewScreen({
           javaScriptEnabled
           domStorageEnabled
           setSupportMultipleWindows={false}
+          // 확대/줌 관련(특히 Android)
+          setBuiltInZoomControls={false}
+          setDisplayZoomControls={false}
           onMessage={(e) => {
             // 가장 안정적인 네이티브 화면 전환 트리거
             tryNavigateFromMessage(e?.nativeEvent?.data);

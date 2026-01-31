@@ -26,6 +26,7 @@ export function EditableText({
   );
 
   const ref = useRef<HTMLDivElement | null>(null);
+  const didInitUncontrolledRef = useRef(false);
 
   // controlled일 때 외부 value 변경을 DOM에 반영
   useEffect(() => {
@@ -33,6 +34,16 @@ export function EditableText({
     const el = ref.current;
     if (!el) return;
     if ((el.textContent ?? "") !== text) el.textContent = text;
+  }, [isControlled, text]);
+
+  // uncontrolled(defaultValue)일 때 초기 1회만 DOM에 반영
+  useEffect(() => {
+    if (isControlled) return;
+    if (didInitUncontrolledRef.current) return;
+    const el = ref.current;
+    if (!el) return;
+    el.textContent = text;
+    didInitUncontrolledRef.current = true;
   }, [isControlled, text]);
 
   const base =

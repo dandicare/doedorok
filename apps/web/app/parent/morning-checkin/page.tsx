@@ -5,14 +5,14 @@ import { EditableText } from "../../../src/ui/editable-text";
 import { Textarea } from "../../../src/ui/textarea";
 
 function Label({ children }: { children: React.ReactNode }) {
-    return <div className="typo-label-l mb-3 text-[#9BA1A6]">{children}</div>;
+    return <div className="typo-label-l mb-1.5 text-[#9BA1A6]">{children}</div>;
 }
 
 export default function ParentMorningCheckinPage(): React.JSX.Element {
     return (
         <main className="min-h-screen w-full bg-white">
             <div className="mx-auto w-full max-w-[430px] px-5 pt-5 pb-28">
-                <section className="mb-7">
+                <section className="mb-[70px]">
                     <Label>총 수면 시간</Label>
                     <div className="typo-display-s text-[#11181C]">
                         우리 단디는 어제
@@ -23,7 +23,7 @@ export default function ParentMorningCheckinPage(): React.JSX.Element {
                     </div>
                 </section>
 
-                <section className="mb-7">
+                <section className="mb-[70px]">
                     <Label>수면의 질</Label>
                     <div className="typo-display-s text-[#11181C]">
                         우리 단디의
@@ -34,7 +34,7 @@ export default function ParentMorningCheckinPage(): React.JSX.Element {
                     </div>
                 </section>
 
-                <section className="mb-7">
+                <section className="mb-[70px]">
                     <Label>경련 발작 여부</Label>
                     <div className="typo-display-s text-[#11181C]">
                         우리 단디는
@@ -45,7 +45,7 @@ export default function ParentMorningCheckinPage(): React.JSX.Element {
                     </div>
                 </section>
 
-                <section className="mb-7">
+                <section className="mb-[70px]">
                     <Label>기타 특이사항</Label>
                     <div className="typo-display-s text-[#11181C]">
                         우리 단디는
@@ -70,4 +70,3 @@ export default function ParentMorningCheckinPage(): React.JSX.Element {
         </main>
     );
 }
-
