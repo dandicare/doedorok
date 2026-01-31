@@ -21,9 +21,21 @@ type Props = {
   initialUrl?: string;
   /** 웹 → 네이티브 화면 이동(postMessage) 허용 여부 */
   enableBridge?: boolean;
+  /**
+   * 로딩 오버레이 노출 정책.
+   * - 'delayed'(기본): 250ms 이상 걸릴 때만 오버레이 표시(깜빡임 최소화)
+   * - 'always': 로딩 시작 즉시 표시
+   * - 'never': 오버레이 표시 안 함
+   */
+  loadingOverlay?: 'delayed' | 'always' | 'never';
 };
 
-export function WebViewScreen({ initialPath, initialUrl, enableBridge = false }: Props) {
+export function WebViewScreen({
+  initialPath,
+  initialUrl,
+  enableBridge = false,
+  loadingOverlay = 'delayed',
+}: Props) {
   const baseUrl = useMemo(() => getBaseUrl(), []);
   const url = useMemo(() => {
     if (initialUrl && initialUrl.trim().length > 0) return initialUrl;
@@ -31,9 +43,11 @@ export function WebViewScreen({ initialPath, initialUrl, enableBridge = false }:
   }, [baseUrl, initialPath, initialUrl]);
 
   const webViewRef = useRef<WebView>(null);
+  const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [canGoBack, setCanGoBack] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showLoadingOverlay, setShowLoadingOverlay] = useState(loadingOverlay === 'always');
   const [error, setError] = useState<string | null>(null);
 
   const tryNavigateFromMessage = useCallback((data: unknown) => {
@@ -109,15 +123,35 @@ export function WebViewScreen({ initialPath, initialUrl, enableBridge = false }:
           onLoadStart={() => {
             setIsLoading(true);
             setError(null);
+
+            if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
+            if (loadingOverlay === 'never') {
+              setShowLoadingOverlay(false);
+              return;
+            }
+            if (loadingOverlay === 'always') {
+              setShowLoadingOverlay(true);
+              return;
+            }
+
+            loadingTimerRef.current = setTimeout(() => {
+              setShowLoadingOverlay(true);
+            }, 250);
           }}
-          onLoadEnd={() => setIsLoading(false)}
+          onLoadEnd={() => {
+            setIsLoading(false);
+            if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
+            setShowLoadingOverlay(false);
+          }}
           onError={(e) => {
             setIsLoading(false);
+            if (loadingTimerRef.current) clearTimeout(loadingTimerRef.current);
+            setShowLoadingOverlay(false);
             setError(e?.nativeEvent?.description ?? 'WebView 로딩 중 오류가 발생했습니다.');
           }}
         />
 
-        {isLoading ? (
+        {isLoading && showLoadingOverlay ? (
           <View pointerEvents="none" style={styles.loadingOverlay}>
             <ActivityIndicator size="large" />
           </View>
