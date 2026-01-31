@@ -1,21 +1,21 @@
 import React from 'react';
 
 interface ChatMessageProps {
-  avatar?: string;
   sender: string;
   timestamp: string;
-  message: string;
-  isDelivered?: boolean;
+  title: string;
+  message?: string;
+  statusItems?: string[];
   isRead?: boolean;
   readTime?: string;
 }
 
 export function ChatMessage({
-  avatar,
   sender,
   timestamp,
+  title,
   message,
-  isDelivered = false,
+  statusItems = [],
   isRead = false,
   readTime
 }: ChatMessageProps) {
@@ -29,25 +29,24 @@ export function ChatMessage({
           <span className="text-gray-400 text-xs">{timestamp}</span>
         </div>
         
-        <div className="mb-2">
-          <h3 className="text-lg font-medium mb-1">
-            안전히 귀가했어요 🏠
-          </h3>
-          <p className="text-gray-600 text-sm mb-2">
-            충전이 완료되었어요! 오늘 컨디션 최고!
-          </p>
-          <p className="text-sm">
-            "전반적으로 컨디션이 좋지 않아 보였지 때문에{' '}
-            <span className="text-red-500">주의가 필요합니다.</span>"
-          </p>
-        </div>
+        <h3 className="text-lg font-medium mb-2">{title}</h3>
         
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-5 h-5 bg-green-500 rounded flex items-center justify-center">
-            <span className="text-white text-xs">✓</span>
+        {message && (
+          <p className="text-sm mb-3" dangerouslySetInnerHTML={{ __html: message }} />
+        )}
+        
+        {statusItems.length > 0 && (
+          <div className="space-y-1 mb-2">
+            {statusItems.map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center">
+                  <span className="text-white text-xs">✓</span>
+                </div>
+                <span className="text-gray-600 text-sm">{item}</span>
+              </div>
+            ))}
           </div>
-          <span className="text-gray-600 text-sm">청열거리는 행동을 보였어요</span>
-        </div>
+        )}
         
         {isRead && readTime && (
           <div className="flex items-center gap-2 text-gray-400 text-xs">
