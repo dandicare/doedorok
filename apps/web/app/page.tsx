@@ -14,7 +14,7 @@ export default function Home() {
     <main className="min-h-screen bg-white flex flex-col justify-between p-6">
       <div className="flex-1 flex flex-col justify-center items-start">
         <div className="text-4xl font-bold text-gray-800 mb-2">내 아이가</div>
-        <div className="text-4xl font-bold text-orange-400 mb-2">뭐도록</div>
+        <div className="text-4xl font-bold text-orange-400 mb-2">되도록</div>
         <div className="text-4xl font-bold text-gray-800">
           행복했으면 좋겠으니까
         </div>
