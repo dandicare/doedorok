@@ -2,7 +2,10 @@
 
 import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { isInReactNativeWebView, navigateNative } from "../../lib/native-bridge";
+import {
+  isInReactNativeWebView,
+  navigateNative,
+} from "../../lib/native-bridge";
 import { Button } from "../../src/ui/button";
 export default function Home(): React.JSX.Element {
   const router = useRouter();
@@ -65,6 +68,14 @@ export default function Home(): React.JSX.Element {
     }
   }, [router]);
 
+  const onGoParentFeed = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("parent/feed");
+    } else {
+      router.push("/parent/feed");
+    }
+  }, [router]);
+
   return (
     <main className="min-h-screen w-full flex flex-col gap-4 items-center justify-center p-6">
       <Button onClick={onGoParentMorningCheckin}>학부모 페이지</Button>
@@ -74,6 +85,7 @@ export default function Home(): React.JSX.Element {
       <Button onClick={onGoTeacherStudents}>내가 맡는 아이들</Button>
       <Button onClick={onGoTeacherWriteRecord}>수업 후 일괄기록 페이지</Button>
       <Button onClick={onGoMonthlyReport}>월별 레포트(샘플)</Button>
+      <Button onClick={onGoParentFeed}>피드 페이지</Button>
     </main>
   );
 }
