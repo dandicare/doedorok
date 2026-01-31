@@ -1,3 +1,5 @@
+// Prisma Schema for 특수교육 학생 관리 시스템
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,12 +9,248 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        BigInt   @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+// 사용자 역할
+enum UserRole {
+  PARENT // 학부모
+  TEACHER // 교사
+  ASSISTANT // 활동 보조인
+}
 
-  @@map("users")
+// 장애 유형
+enum DisabilityType {
+  AUTISM // 자폐 스펙트럼
+  INTELLECTUAL // 지적장애
+  MULTIPLE // 중복
+}
+
+// 지원 필요 수준
+enum SupportLevel {
+  INTENSIVE // 집중 지원 필요
+  PARTIAL // 부분 지원
+  INDEPENDENT // 독립 수행
+}
+
+// 출결 상태
+enum AttendanceStatus {
+  PRESENT // 출석
+  ABSENT // 결석
+  LATE // 지각
+  EARLY_LEAVE // 조퇴
+}
+
+// 사용자
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String
+  phoneNumber String?
+  role        UserRole
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  students         StudentParent[]
+  teacherRecords   TeacherRecord[]
+  assistantRecords AssistantRecord[]
+}
+
+// 학생
+model Student {
+  id             String         @id @default(uuid())
+  name           String
+  birthDate      DateTime
+  gender         String
+  photo          String?
+  disabilityType DisabilityType
+  supportLevel   SupportLevel
+  institution    String // 소속 기관
+  class          String? // 학급
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  // Relations
+  parents          StudentParent[]
+  teachers         StudentTeacher[]
+  morningCheckIns  MorningCheckIn[]
+  mealCheckIns     MealCheckIn[]
+  dailyRecords     DailyRecord[]
+  teacherRecords   TeacherRecord[]
+  assistantRecords AssistantRecord[]
+  medications      Medication[]
+}
+
+// 학생-학부모 관계
+model StudentParent {
+  id        String   @id @default(uuid())
+  studentId String
+  parentId  String
+  createdAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  parent  User    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, parentId])
+}
+
+// 학생-교사 관계
+model StudentTeacher {
+  id        String   @id @default(uuid())
+  studentId String
+  teacherId String
+  isPrimary Boolean  @default(false) // 담당 교사 여부
+  createdAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, teacherId])
+}
+
+// 약물 정보
+model Medication {
+  id        String   @id @default(uuid())
+  studentId String
+  name      String // 약 이름
+  dosage    String? // 용량
+  timing    String? // 복용 시간 (예: "점심 후")
+  location  String? // 보관 위치 (예: "가방 앞주머니")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student      Student       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  mealCheckIns MealCheckIn[]
+}
+
+// 모닝 체크인 (학부모)
+model MorningCheckIn {
+  id        String   @id @default(uuid())
+  studentId String
+  date      DateTime @default(now())
+
+  // 수면
+  sleepHours   Float // 총 수면 시간
+  sleepQuality String // 꿀잠, 보통, 자다 깸, 설침
+  hadSeizure   Boolean @default(false) // 경련 발작 여부
+
+  // 기타
+  notes String? // 기타 특이사항
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId, date])
+}
+
+// 식사 체크인 (학부모)
+model MealCheckIn {
+  id        String   @id @default(uuid())
+  studentId String
+  mealTime  DateTime // 식사 시각
+  mealType  String // 아침, 점심, 저녁
+
+  // 식사량
+  amount String // 안 먹음, 조금, 절반, 완식, 과식
+
+  // 메뉴
+  mainMenu String? // 주요 메뉴
+
+  // 주의 성분 (배열로 저장)
+  hasWheat     Boolean @default(false) // 밀가루 많이
+  hasDairy     Boolean @default(false) // 유제품
+  hasHighSugar Boolean @default(false) // 고당분/초코
+  hasSpicy     Boolean @default(false) // 매운 것
+  hasCaffeine  Boolean @default(false) // 카페인
+
+  // 투약
+  medicationId     String?
+  medicationDosage String? // 용량
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student    Student     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  medication Medication? @relation(fields: [medicationId], references: [id], onDelete: SetNull)
+
+  @@index([studentId, mealTime])
+}
+
+// 하루 기록 (학부모 - 자기 전)
+model DailyRecord {
+  id        String   @id @default(uuid())
+  studentId String
+  date      DateTime @default(now())
+
+  // 오늘 컨디션
+  condition String // 최상, 양호, 보통, 주의, 경고
+
+  // 전달 사항
+  message String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId, date])
+}
+
+// 교사 기록 (수업 후)
+model TeacherRecord {
+  id        String   @id @default(uuid())
+  studentId String
+  teacherId String
+  date      DateTime @default(now())
+
+  // 출결 사항
+  attendance AttendanceStatus
+  mood       String // 좋음, 평온, 무표정, 짜증/울음
+
+  // 수업 및 활동 (배열로 저장)
+  hasPhysicalEd         Boolean @default(false) // 체육
+  hasArt                Boolean @default(false) // 창작
+  hasSensoryIntegration Boolean @default(false) // 감각통합
+  hasAcademicClass      Boolean @default(false) // 교과수업
+
+  // 참여도/수행도
+  participation String? // 거부/이탈, 소극적, 보통, 적극적
+
+  // 특이사항
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacher User    @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@index([studentId, date])
+  @@index([teacherId, date])
+}
+
+// 활동 보조인 기록
+model AssistantRecord {
+  id          String   @id @default(uuid())
+  studentId   String
+  assistantId String
+  date        DateTime @default(now())
+
+  // 동행 시간
+  hours Float
+
+  // 오늘 컨디션
+  condition String
+
+  // 특이사항
+  notes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  assistant User    @relation(fields: [assistantId], references: [id], onDelete: Cascade)
+
+  @@index([studentId, date])
+  @@index([assistantId, date])
 }
