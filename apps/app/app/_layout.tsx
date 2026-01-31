@@ -49,6 +49,17 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="student/records"
+            options={{
+              headerShown: true,
+              title: '어젯밤 아이들의 기록이에요',
+              headerLeft: () => <HeaderBackButton />,
+              presentation: 'card',
+              gestureEnabled: true,
+              fullScreenGestureEnabled: true,
+            }}
+          />
+          <Stack.Screen
             name="teacher/students"
             options={{
               headerShown: true,

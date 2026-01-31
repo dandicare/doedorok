@@ -11,9 +11,12 @@
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@react-spring/web": "^9.7.5",
     "next": "16.1.0",
     "react": "^19.2.0",
+    "react-card-flip": "^1.2.3",
     "react-dom": "^19.2.0",
+    "react-tinder-card": "^1.6.4",
     "tailwind-merge": "^3.4.0",
     "tailwind-variants": "^3.2.2"
   },

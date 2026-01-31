@@ -179,7 +179,7 @@ export default function StudentProfile(): React.JSX.Element {
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2">
               <span>•</span>
-              <span>돌발 행동 15% 감소, 핵심은 '투약 관리' 💊</span>
+              <span>돌발 행동 15% 감소, 핵심은 &apos;투약 관리&apos; 💊</span>
             </div>
             <div className="flex items-center gap-2">
               <span>•</span>
@@ -189,7 +189,7 @@ export default function StudentProfile(): React.JSX.Element {
             </div>
             <div className="flex items-center gap-2">
               <span>•</span>
-              <span>2월을 위한 '아침 식사 변경' 제안</span>
+              <span>2월을 위한 &apos;아침 식사 변경&apos; 제안</span>
             </div>
           </div>
         </div>
