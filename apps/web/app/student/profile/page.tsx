@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { isInReactNativeWebView, navigateNative } from "../../../lib/native-bridge";
 
 export default function StudentProfile(): React.JSX.Element {
   const router = useRouter();
@@ -10,12 +12,32 @@ export default function StudentProfile(): React.JSX.Element {
     router.push(`/student/profile/edit?field=${field}`);
   };
 
+  const onGoMonthlyReport = () => {
+    if (isInReactNativeWebView()) {
+      navigateNative("report");
+      return;
+    }
+    router.push("/report");
+  };
+
   return (
     <div className="min-h-screen bg-[#FAFAFA]">
-      <div className="px-6 space-y-6 pt-6">
+      <div
+        className="px-6 space-y-6 pt-6"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 28px)" }}
+      >
         {/* Profile Image */}
         <div className="flex justify-center">
-          <div className="w-24 h-24 bg-gray-300 rounded-full"></div>
+          <div className="w-24 h-24 bg-gray-200 rounded-full overflow-hidden relative">
+            <Image
+              src="/image3.png"
+              alt="김단디 프로필"
+              fill
+              sizes="96px"
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
 
         {/* Name */}
@@ -163,7 +185,12 @@ export default function StudentProfile(): React.JSX.Element {
         <div className="bg-[#E87F00] text-white p-4 rounded-lg">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-medium">AI 분석 레포트</h3>
-            <div className="flex items-center gap-1 text-sm">
+            <button
+              type="button"
+              onClick={onGoMonthlyReport}
+              className="flex items-center gap-1 text-sm active:opacity-90"
+              aria-label="월별 레포트 전체보기"
+            >
               <span>전체보기</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path
@@ -174,7 +201,7 @@ export default function StudentProfile(): React.JSX.Element {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
+            </button>
           </div>
           <div className="space-y-2 text-sm">
             <div className="flex items-center gap-2">

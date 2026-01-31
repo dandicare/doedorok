@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { MealPrompt } from '../../src/ui/meal-prompt';
 import { ChatMessage } from '../../src/ui/chat-message';
@@ -136,6 +137,14 @@ export default function Feed() {
     router.push('/dev');
   }, [router]);
 
+  const onGoStudentProfile = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative('student/profile');
+      return;
+    }
+    router.push('/student/profile');
+  }, [router]);
+
   return (
     <div className="min-h-screen bg-white pt-[env(safe-area-inset-top)]">
       <main className="mx-auto max-w-[420px] pb-[calc(env(safe-area-inset-bottom)+24px)]">
@@ -236,7 +245,7 @@ export default function Feed() {
 
       {/* 우측 하단 플로팅 버튼: 아직 연결되지 않은 dev 페이지로 진입 */}
       <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+16px)] pointer-events-none">
-        <div className="mx-auto max-w-[420px] px-5 flex justify-end">
+        <div className="mx-auto max-w-[420px] px-5 flex justify-end gap-3">
           <button
             type="button"
             onClick={onGoDev}
@@ -244,6 +253,22 @@ export default function Feed() {
             className="pointer-events-auto h-12 w-12 rounded-full bg-black text-white flex items-center justify-center shadow-lg shadow-black/20 active:scale-[0.98] transition-transform"
           >
             Dev
+          </button>
+
+          <button
+            type="button"
+            onClick={onGoStudentProfile}
+            aria-label="학생 프로필로 이동"
+            className="pointer-events-auto h-12 w-12 rounded-full overflow-hidden bg-white shadow-lg shadow-black/20 active:scale-[0.98] transition-transform relative"
+          >
+            <Image
+              src="/image3.png"
+              alt="학생 프로필"
+              fill
+              sizes="48px"
+              className="object-cover"
+              priority
+            />
           </button>
         </div>
       </div>
