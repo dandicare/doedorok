@@ -32,8 +32,9 @@ export function ToggleChip({
   };
 
   const base = cn(
-    "inline-flex items-center h-[28px] gap-2 py-0.5 px-[14px] rounded-[36px] transition-colors duration-200 cursor-pointer",
-    "text-[14px] whitespace-nowrap w-fit font-semibold",
+    "inline-flex items-center gap-1 py-2 px-3 transition-colors duration-200 cursor-pointer shadow-sm w-full",
+    "text-[12px] whitespace-nowrap border",
+    variant === "activity" ? "rounded-full" : "rounded-2xl",
     isActive
       ? "bg-[#FF8C00] text-white border-[#FF8C00]"
       : "bg-white text-[#666] border-[#E0E0E0]",
