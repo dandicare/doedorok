@@ -11,35 +11,41 @@ import { WebView, type WebViewNavigation } from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import * as WebBrowser from 'expo-web-browser';
-import { useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 
 const DEFAULT_WEB_URL = 'http://10.10.150.243:3000';
+const APP_SCHEME = 'app://';
 
 function getBaseUrl() {
   const envUrl = process.env.EXPO_PUBLIC_WEB_URL;
   return envUrl && envUrl.trim().length > 0 ? envUrl : DEFAULT_WEB_URL;
 }
 
-export default function GenericWebViewScreen() {
-  const params = useLocalSearchParams<{ url?: string; path?: string }>();
+function tryHandleAppLink(url: string) {
+  if (!url.startsWith(APP_SCHEME)) return false;
+  const rest = url.slice(APP_SCHEME.length);
+  const [rawRoute] = rest.split('?');
+  const pathname = `/${(rawRoute || 'index').replace(/^\/+/, '')}`;
+  router.push(pathname as any);
+  return true;
+}
+
+export default function ExampleScreen() {
+  const baseUrl = useMemo(() => getBaseUrl().replace(/\/$/, ''), []);
+  const initialUrl = useMemo(() => `${baseUrl}/example`, [baseUrl]);
   const webViewRef = useRef<WebView>(null);
 
   const [canGoBack, setCanGoBack] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const baseUrl = useMemo(() => getBaseUrl().replace(/\/$/, ''), []);
-
-  const initialUrl = useMemo(() => {
-    if (params.url && params.url.trim().length > 0) return params.url;
-
-    const rawPath = params.path ?? '/';
-    const path = rawPath.startsWith('/') ? rawPath : `/${rawPath}`;
-    return `${baseUrl}${path}`;
-  }, [baseUrl, params.path, params.url]);
-
   const onNavigationStateChange = useCallback((navState: WebViewNavigation) => {
     setCanGoBack(Boolean(navState.canGoBack));
+
+    // iOS에서 onShouldStartLoadWithRequest가 항상 보장되지 않는 케이스 대비
+    if (navState?.url && tryHandleAppLink(navState.url)) {
+      webViewRef.current?.stopLoading();
+    }
   }, []);
 
   useEffect(() => {
@@ -60,6 +66,8 @@ export default function GenericWebViewScreen() {
     (req: any) => {
       const url: string | undefined = req?.url;
       if (!url) return true;
+
+      if (tryHandleAppLink(url)) return false;
 
       const isSameOrigin = url.startsWith(baseUrl);
       if (isSameOrigin) return true;

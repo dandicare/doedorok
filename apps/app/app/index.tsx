@@ -11,13 +11,42 @@ import { WebView, type WebViewNavigation } from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import * as WebBrowser from 'expo-web-browser';
+import { router } from 'expo-router';
 
 const DEFAULT_WEB_URL = 'http://10.10.150.243:3000';
+const APP_SCHEME = 'app://';
 
 function getWebUrl() {
   // Expo 환경변수(.env / app config)로 주입: EXPO_PUBLIC_WEB_URL
   const envUrl = process.env.EXPO_PUBLIC_WEB_URL;
   return envUrl && envUrl.trim().length > 0 ? envUrl : DEFAULT_WEB_URL;
+}
+
+function tryHandleAppLink(url: string) {
+  if (!url.startsWith(APP_SCHEME)) return false;
+
+  // 예: app://example
+  const rest = url.slice(APP_SCHEME.length); // "example"
+  const [rawRoute] = rest.split('?');
+  const pathname = `/${(rawRoute || 'index').replace(/^\/+/, '')}`;
+  router.push(pathname as any);
+  return true;
+}
+
+function tryHandleWebMessage(data: unknown) {
+  if (typeof data !== 'string') return false;
+
+  try {
+    const parsed = JSON.parse(data);
+    if (parsed?.type !== 'NAVIGATE') return false;
+    const screen = String(parsed?.screen ?? '').trim();
+    if (!screen) return false;
+
+    router.push(`/${screen}` as any);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export default function AppRootWebViewScreen() {
@@ -30,6 +59,11 @@ export default function AppRootWebViewScreen() {
 
   const onNavigationStateChange = useCallback((navState: WebViewNavigation) => {
     setCanGoBack(Boolean(navState.canGoBack));
+
+    // iOS에서 onShouldStartLoadWithRequest가 항상 보장되지 않는 케이스 대비
+    if (navState?.url && tryHandleAppLink(navState.url)) {
+      webViewRef.current?.stopLoading();
+    }
   }, []);
 
   useEffect(() => {
@@ -50,6 +84,9 @@ export default function AppRootWebViewScreen() {
     (req: any) => {
       const url: string | undefined = req?.url;
       if (!url) return true;
+
+      // 웹에서 app://webview?... 로 네이티브 화면 전환 트리거
+      if (tryHandleAppLink(url)) return false;
 
       // 같은 origin은 WebView 안에서 계속 탐색
       const isSameOrigin = url.startsWith(webUrl);
@@ -77,6 +114,10 @@ export default function AppRootWebViewScreen() {
           javaScriptEnabled
           domStorageEnabled
           setSupportMultipleWindows={false}
+          onMessage={(e) => {
+            // 가장 안정적인 네이티브 화면 전환 트리거
+            tryHandleWebMessage(e?.nativeEvent?.data);
+          }}
           onNavigationStateChange={onNavigationStateChange}
           onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
           onLoadStart={() => {
