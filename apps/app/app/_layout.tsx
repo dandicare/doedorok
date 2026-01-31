@@ -38,6 +38,28 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="student/profile"
+            options={{
+              headerShown: true,
+              title: '학생 프로필',
+              headerLeft: () => <HeaderBackButton />,
+              presentation: 'card',
+              gestureEnabled: true,
+              fullScreenGestureEnabled: true,
+            }}
+          />
+          <Stack.Screen
+            name="teacher/students"
+            options={{
+              headerShown: true,
+              title: '내가 맡는 아이들',
+              headerLeft: () => <HeaderBackButton />,
+              presentation: 'card',
+              gestureEnabled: true,
+              fullScreenGestureEnabled: true,
+            }}
+          />
+          <Stack.Screen
             name="example"
             options={{
               headerShown: true,
