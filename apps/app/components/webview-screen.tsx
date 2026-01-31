@@ -34,7 +34,7 @@ export function WebViewScreen({
   initialPath,
   initialUrl,
   enableBridge = false,
-  loadingOverlay = 'delayed',
+  loadingOverlay = 'never',
 }: Props) {
   const baseUrl = useMemo(() => getBaseUrl(), []);
   const url = useMemo(() => {
