@@ -42,7 +42,6 @@ export default function RootLayout() {
             options={{
               headerShown: true,
               title: '되도록',
-              headerLeft: () => <HeaderBackButton />,
               presentation: 'card',
               gestureEnabled: true,
               fullScreenGestureEnabled: true,
@@ -93,10 +92,10 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="example"
+            name="dev"
             options={{
               headerShown: true,
-              title: 'Example',
+              title: 'Dev',
               presentation: 'card',
               gestureEnabled: true,
               fullScreenGestureEnabled: true,

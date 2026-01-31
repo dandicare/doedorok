@@ -3,13 +3,20 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { isInReactNativeWebView, navigateNative } from "../lib/native-bridge";
 
 export default function Home() {
   const router = useRouter();
   const [phase, setPhase] = useState<"intro" | "main">("intro");
 
   const handleLogin = () => {
-    router.push("/example");
+    // 앱(WebView)에서는 "네이티브 화면 전환"이 되도록 postMessage로 트리거합니다.
+    // 브라우저에서는 피드가 로그인 이후 "루트"가 되도록 history를 남기지 않아요 (백버튼 X).
+    if (isInReactNativeWebView()) {
+      navigateNative("parent/feed");
+      return;
+    }
+    router.replace("/feed");
   };
 
   // Move from centered intro to the normal layout after the intro finishes.
