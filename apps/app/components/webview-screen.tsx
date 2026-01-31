@@ -56,8 +56,15 @@ export function WebViewScreen({
     const msg = parseNativeBridgeMessage(data);
     if (!msg || msg.type !== 'NAVIGATE') return false;
 
-    const pathname = screenToPathname((msg as any).screen);
+    const screen = String((msg as any).screen ?? '').trim();
+    const pathname = screenToPathname(screen);
     if (!pathname) return false;
+
+    // 로그인 후 첫 진입인 feed는 "루트"처럼 동작해야 해서 back stack을 남기지 않아요.
+    if (screen === 'parent/feed') {
+      router.replace(pathname as any);
+      return true;
+    }
 
     router.push(pathname as any);
     return true;

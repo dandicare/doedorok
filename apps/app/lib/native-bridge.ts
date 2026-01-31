@@ -22,7 +22,7 @@ export function screenToPathname(screen: string) {
   const s = String(screen ?? '').trim();
   if (!s) return null;
 
-  // 안전하게 라우트 세그먼트로만 허용 (예: example, parent/morning-checkin)
+  // 안전하게 라우트 세그먼트로만 허용 (예: dev, parent/morning-checkin)
   // - 각 세그먼트는 [a-zA-Z0-9_-]+ 만 허용
   // - '..' 같은 경로 탈출 방지
   if (s.includes('..')) return null;

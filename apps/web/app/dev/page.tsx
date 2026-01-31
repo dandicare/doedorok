@@ -7,6 +7,7 @@ import {
   navigateNative,
 } from "../../lib/native-bridge";
 import { Button } from "../../src/ui/button";
+
 export default function Home(): React.JSX.Element {
   const router = useRouter();
 
@@ -72,7 +73,7 @@ export default function Home(): React.JSX.Element {
     if (isInReactNativeWebView()) {
       navigateNative("parent/feed");
     } else {
-      router.push("/parent/feed");
+      router.push("/feed");
     }
   }, [router]);
 
@@ -89,3 +90,4 @@ export default function Home(): React.JSX.Element {
     </main>
   );
 }
+
