@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    "./styles.css": "./styles.css",
+    "./tailwind.css": "./tailwind.css",
     "./*": "./src/*.tsx"
   },
   "scripts": {

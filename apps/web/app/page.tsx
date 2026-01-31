@@ -18,26 +18,10 @@ export default function Home() {
   }, [router]);
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        display: "grid",
-        placeItems: "center",
-        padding: 24,
-        fontFamily: "system-ui, -apple-system, Segoe UI, Roboto",
-      }}
-    >
+    <main className="min-h-screen grid place-items-center p-6">
       <button
         onClick={onGo}
-        style={{
-          padding: "14px 18px",
-          borderRadius: 12,
-          border: "1px solid rgba(0,0,0,0.12)",
-          background: "#111",
-          color: "#fff",
-          fontSize: 16,
-          cursor: "pointer",
-        }}
+        className="text-button-l inline-flex cursor-pointer items-center justify-center rounded border border-black/10 bg-black px-5 py-3.5 text-white w-[200px]"
       >
         예시 화면 열기
       </button>
