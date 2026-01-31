@@ -1,13 +1,61 @@
-import type { JSX } from "react";
+"use client";
 
-export default function ExamplePage(): JSX.Element {
+import React, { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { isInReactNativeWebView, navigateNative } from "../../lib/native-bridge";
+import { Button } from "../../src/ui/button";
+export default function Home(): React.JSX.Element {
+  const router = useRouter();
+
+  const onGoParentMorningCheckin = useCallback(() => {
+    // WebView(앱) 안이면: 네이티브 화면 전환 트리거(postMessage).
+    // 브라우저면: 그냥 Next 라우팅으로 해당 페이지 이동.
+    if (isInReactNativeWebView()) {
+      navigateNative("parent/morning-checkin");
+    } else {
+      router.push("/parent/morning-checkin");
+    }
+  }, [router]);
+
+  const onGoParentAfterMealCheckin = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("parent/after-meal-checkin");
+    } else {
+      router.push("/parent/after-meal-checkin");
+    }
+  }, [router]);
+
+  const onGoStudentProfile = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("student/profile");
+    } else {
+      router.push("/student/profile");
+    }
+  }, [router]);
+
+  const onGoTeacherStudents = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("teacher/students");
+    } else {
+      router.push("/teacher/students");
+    }
+  }, [router]);
+
+  const onGoTeacherWriteRecord = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("teacher/write-record");
+    } else {
+      router.push("/teacher/write-record");
+    }
+  }, [router]);
+
   return (
-    <main className="p-6">
-      <h1 className="typo-title-s m-0">예시 페이지</h1>
-      <p className="typo-body-m-r mt-3 opacity-80">
-        이 화면은 WebView에서 “새 앱 화면(스택)”으로 열린 웹 페이지입니다.
-      </p>
+    <main className="min-h-screen w-full flex flex-col gap-4 items-center justify-center p-6">
+      <Button onClick={onGoParentMorningCheckin}>학부모 페이지</Button>
+      <Button onClick={onGoParentAfterMealCheckin}>식사 후 체크인</Button>
+      <Button onClick={onGoStudentProfile}>학생 프로필 페이지</Button>
+      <Button onClick={onGoTeacherStudents}>내가 맡는 아이들</Button>
+      <Button onClick={onGoTeacherWriteRecord}>수업 후 일괄기록 페이지</Button>
     </main>
   );
 }
-

@@ -1,70 +1,68 @@
 "use client";
 
-import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { isInReactNativeWebView, navigateNative } from "../lib/native-bridge";
-import { Button } from "../src/ui/button";
-export default function Home(): React.JSX.Element {
+import Image from "next/image";
+
+export default function Home() {
   const router = useRouter();
 
-  const onGoParentMorningCheckin = useCallback(() => {
-    // WebView(앱) 안이면: 네이티브 화면 전환 트리거(postMessage).
-    // 브라우저면: 그냥 Next 라우팅으로 해당 페이지 이동.
-    if (isInReactNativeWebView()) {
-      navigateNative("parent/morning-checkin");
-    } else {
-      router.push("/parent/morning-checkin");
-    }
-  }, [router]);
-
-  const onGoParentAfterMealCheckin = useCallback(() => {
-    if (isInReactNativeWebView()) {
-      navigateNative("parent/after-meal-checkin");
-    } else {
-      router.push("/parent/after-meal-checkin");
-    }
-  }, [router]);
-
-  const onGoStudentProfile = useCallback(() => {
-    if (isInReactNativeWebView()) {
-      navigateNative("student/profile");
-    } else {
-      router.push("/student/profile");
-    }
-  }, [router]);
-
-  const onGoTeacherStudents = useCallback(() => {
-    if (isInReactNativeWebView()) {
-      navigateNative("teacher/students");
-    } else {
-      router.push("/teacher/students");
-    }
-  }, [router]);
-
-  const onGoStudentRecords = useCallback(() => {
-    if (isInReactNativeWebView()) {
-      navigateNative("student/records");
-    } else {
-      router.push("/student/records");
-    }
-  }, [router]);
-
-  const onGoTeacherWriteRecord = useCallback(() => {
-    if (isInReactNativeWebView()) {
-      navigateNative("teacher/write-record");
-    } else {
-      router.push("/teacher/write-record");
-    }
-  }, [router]);
+  const handleLogin = () => {
+    router.push("/example");
+  };
 
   return (
-    <main className="min-h-screen w-full flex flex-col gap-4 items-center justify-center p-6">
-      <Button onClick={onGoParentMorningCheckin}>학부모 페이지</Button>
-      <Button onClick={onGoParentAfterMealCheckin}>식사 후 체크인</Button>
-      <Button onClick={onGoStudentProfile}>학생 프로필 페이지</Button>
-      <Button onClick={onGoStudentRecords}>학생들 기록</Button>
-      <Button onClick={onGoTeacherStudents}>내가 맡는 아이들</Button>
-      <Button onClick={onGoTeacherWriteRecord}>수업 후 일괄기록 페이지</Button>
+    <main className="min-h-screen bg-white flex flex-col justify-between p-6">
+      <div className="flex-1 flex flex-col justify-center items-start">
+        <div className="text-4xl font-bold text-gray-800 mb-2">내 아이가</div>
+        <div className="text-4xl font-bold text-orange-400 mb-2">뭐도록</div>
+        <div className="text-4xl font-bold text-gray-800">
+          행복했으면 좋겠으니까
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4">
+        <button
+          onClick={handleLogin}
+          className="w-full bg-yellow-300 text-black py-4 px-6 rounded-xl flex items-center text-base font-medium relative"
+        >
+          <Image
+            src="/kakao_logo.svg"
+            alt="KakaoTalk"
+            width={20}
+            height={20}
+            className="absolute left-6"
+          />
+          <span className="flex-1 text-center">카카오로 계속하기</span>
+        </button>
+
+        <button
+          onClick={handleLogin}
+          className="w-full bg-green-500 text-white py-4 px-6 rounded-xl flex items-center text-base font-medium relative"
+        >
+          <Image
+            src="/naver_logo.svg"
+            alt="Naver"
+            width={20}
+            height={20}
+            className="absolute left-6"
+          />
+          <span className="flex-1 text-center">네이버로 계속하기</span>
+        </button>
+
+        <button
+          onClick={handleLogin}
+          className="w-full bg-gray-100 text-gray-700 py-4 px-6 rounded-xl flex items-center text-base font-medium relative"
+        >
+          <Image
+            src="/google_logo.svg"
+            alt="Google"
+            width={20}
+            height={20}
+            className="absolute left-6"
+          />
+          <span className="flex-1 text-center">구글로 계속하기</span>
+        </button>
+      </div>
     </main>
   );
 }
