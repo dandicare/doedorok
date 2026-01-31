@@ -29,10 +29,12 @@ export function ChatMessage({
   const renderChip = (raw: string, index: number) => {
     const text = raw.trim();
     const maybeEmoji = text.match(
-      /^(?:\p{Extended_Pictographic}|\p{Emoji_Presentation}|\p{Emoji}\uFE0F)\s+/u
+      /^(?:\p{Extended_Pictographic}|\p{Emoji_Presentation}|\p{Emoji}\uFE0F)\s+/u,
     );
     const leadingEmoji = maybeEmoji ? maybeEmoji[0].trim() : null;
-    const label = leadingEmoji ? text.slice(maybeEmoji![0].length).trim() : text;
+    const label = leadingEmoji
+      ? text.slice(maybeEmoji![0].length).trim()
+      : text;
 
     const isCheck =
       (!leadingEmoji && (label.startsWith("정상") || label.includes("완료"))) ||
@@ -43,16 +45,16 @@ export function ChatMessage({
     return (
       <div
         key={`${text}-${index}`}
-        className="inline-flex items-center gap-2 rounded-full bg-[#F3F4F6] px-3 py-2"
+        className="inline-flex items-center gap-2 rounded-full bg-[#F3F4F6] px-2 py-1"
       >
         {isCheck ? (
-          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-[#22C55E] text-[12px] font-bold text-white">
+          <span className="inline-flex h-4 w-4 items-center justify-center rounded-md bg-[#22C55E] text-[10px] font-bold text-white">
             ✓
           </span>
         ) : leadingEmoji ? (
-          <span className="text-[14px] leading-none">{leadingEmoji}</span>
+          <span className="text-[12px] leading-none">{leadingEmoji}</span>
         ) : null}
-        <span className="typo-label-m text-[#6B7280]">{label}</span>
+        <span className="text-[12px] text-[#6B7280]">{label}</span>
       </div>
     );
   };
@@ -69,7 +71,7 @@ export function ChatMessage({
 
         <div className="min-w-0 flex-1">
           <div className="typo-label-m mb-1 flex items-center gap-2 text-[#9CA3AF]">
-            <span className="truncate">{sender}</span>
+            <span className="truncate font-bold">{sender}</span>
             <span className="text-[#D1D5DB]">|</span>
             <span className="shrink-0">{timestamp}</span>
           </div>
@@ -91,11 +93,13 @@ export function ChatMessage({
           ) : null}
 
           {chips.length > 0 ? (
-            <div className="mb-2 flex flex-wrap gap-2">{chips.map(renderChip)}</div>
+            <div className="mb-2 flex flex-wrap gap-2">
+              {chips.map(renderChip)}
+            </div>
           ) : null}
 
           {isRead && readTime ? (
-            <div className="typo-label-m flex items-center gap-2 text-[#B6B6B6]">
+            <div className="typo-label-m flex items-center gap-2 text-[#B6B6B6] font-bold">
               <span>✓</span>
               <span>선생님 확인 완료</span>
               <span>{readTime}</span>
