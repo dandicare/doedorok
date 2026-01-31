@@ -3,30 +3,40 @@ import {
   ActivityIndicator,
   BackHandler,
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import { WebView, type WebViewNavigation } from 'react-native-webview';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import * as WebBrowser from 'expo-web-browser';
+import { useLocalSearchParams } from 'expo-router';
 
-const DEFAULT_WEB_URL = "http://10.10.150.243:3000"
+const DEFAULT_WEB_URL = 'http://10.10.150.243:3000';
 
-function getWebUrl() {
-  // Expo 환경변수(.env / app config)로 주입: EXPO_PUBLIC_WEB_URL
+function getBaseUrl() {
   const envUrl = process.env.EXPO_PUBLIC_WEB_URL;
   return envUrl && envUrl.trim().length > 0 ? envUrl : DEFAULT_WEB_URL;
 }
 
-export default function HomeScreen() {
-  const webUrl = useMemo(() => getWebUrl(), []);
+export default function GenericWebViewScreen() {
+  const params = useLocalSearchParams<{ url?: string; path?: string }>();
   const webViewRef = useRef<WebView>(null);
 
   const [canGoBack, setCanGoBack] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const baseUrl = useMemo(() => getBaseUrl().replace(/\/$/, ''), []);
+
+  const initialUrl = useMemo(() => {
+    if (params.url && params.url.trim().length > 0) return params.url;
+
+    const rawPath = params.path ?? '/';
+    const path = rawPath.startsWith('/') ? rawPath : `/${rawPath}`;
+    return `${baseUrl}${path}`;
+  }, [baseUrl, params.path, params.url]);
 
   const onNavigationStateChange = useCallback((navState: WebViewNavigation) => {
     setCanGoBack(Boolean(navState.canGoBack));
@@ -51,11 +61,9 @@ export default function HomeScreen() {
       const url: string | undefined = req?.url;
       if (!url) return true;
 
-      // 같은 origin은 WebView 안에서 계속 탐색
-      const isSameOrigin = url.startsWith(webUrl);
+      const isSameOrigin = url.startsWith(baseUrl);
       if (isSameOrigin) return true;
 
-      // 외부 링크는 시스템 브라우저로
       if (url.startsWith('http://') || url.startsWith('https://')) {
         WebBrowser.openBrowserAsync(url).catch(() => {});
         return false;
@@ -63,16 +71,17 @@ export default function HomeScreen() {
 
       return true;
     },
-    [webUrl],
+    [baseUrl],
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView edges={['left', 'right']} style={styles.safeArea}>
       <View style={styles.container}>
         <WebView
           ref={webViewRef}
-          source={{ uri: webUrl }}
+          source={{ uri: initialUrl }}
           originWhitelist={['*']}
+          style={styles.webview}
           javaScriptEnabled
           domStorageEnabled
           setSupportMultipleWindows={false}
@@ -100,9 +109,6 @@ export default function HomeScreen() {
           <View style={styles.errorOverlay}>
             <Text style={styles.errorTitle}>WebView 로딩 실패</Text>
             <Text style={styles.errorBody}>{error}</Text>
-            <Text style={styles.errorHint}>
-              {`실기기(Expo Go)에서 로컬 개발 서버를 띄우는 경우, EXPO_PUBLIC_WEB_URL을 같은 Wi‑Fi의 IP로 설정하세요.\n예) http://192.168.0.12:3000`}
-            </Text>
           </View>
         ) : null}
       </View>
@@ -113,10 +119,14 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
   },
   container: {
     flex: 1,
+  },
+  webview: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
   loadingOverlay: {
     position: 'absolute',
@@ -150,12 +160,6 @@ const styles = StyleSheet.create({
   errorBody: {
     color: '#fff',
     opacity: 0.9,
-    marginBottom: 10,
-  },
-  errorHint: {
-    color: '#fff',
-    opacity: 0.75,
-    fontSize: 12,
-    lineHeight: 16,
   },
 });
+
