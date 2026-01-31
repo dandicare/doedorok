@@ -5,6 +5,7 @@ import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { HeaderBackButton } from '@/components/header-back-button';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -19,6 +20,7 @@ export default function RootLayout() {
             options={{
               headerShown: true,
               title: '모닝 체크인',
+              headerLeft: () => <HeaderBackButton />,
               presentation: 'card',
               gestureEnabled: true,
               fullScreenGestureEnabled: true,
