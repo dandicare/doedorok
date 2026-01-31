@@ -38,6 +38,17 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
+            name="parent/feed"
+            options={{
+              headerShown: true,
+              title: '피드',
+              headerLeft: () => <HeaderBackButton />,
+              presentation: 'card',
+              gestureEnabled: true,
+              fullScreenGestureEnabled: true,
+            }}
+          />
+          <Stack.Screen
             name="student/profile"
             options={{
               headerShown: true,
