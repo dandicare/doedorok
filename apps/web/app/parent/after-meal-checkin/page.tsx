@@ -27,7 +27,7 @@ export default function AfterMealCheckinPage(): React.JSX.Element {
                                     <div>
                                         <span className="inline-flex gap-2">
                                             <EditableText />
-                                            <EditableText /> 시에
+                                            <EditableText className="min-w-[48px]" /> 시에
                                         </span>
                                     </div>
                                     <div>
