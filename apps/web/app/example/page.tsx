@@ -57,6 +57,14 @@ export default function Home(): React.JSX.Element {
     }
   }, [router]);
 
+  const onGoMonthlyReport = useCallback(() => {
+    if (isInReactNativeWebView()) {
+      navigateNative("report");
+    } else {
+      router.push("/report");
+    }
+  }, [router]);
+
   return (
     <main className="min-h-screen w-full flex flex-col gap-4 items-center justify-center p-6">
       <Button onClick={onGoParentMorningCheckin}>학부모 페이지</Button>
@@ -65,6 +73,7 @@ export default function Home(): React.JSX.Element {
       <Button onClick={onGoStudentRecords}>어젯밤 아이들의 기록이에요</Button>
       <Button onClick={onGoTeacherStudents}>내가 맡는 아이들</Button>
       <Button onClick={onGoTeacherWriteRecord}>수업 후 일괄기록 페이지</Button>
+      <Button onClick={onGoMonthlyReport}>월별 레포트(샘플)</Button>
     </main>
   );
 }

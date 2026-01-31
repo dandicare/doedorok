@@ -91,6 +91,17 @@ export default function RootLayout() {
               fullScreenGestureEnabled: true,
             }}
           />
+          <Stack.Screen
+            name="report"
+            options={{
+              headerShown: true,
+              title: '월별 레포트',
+              headerLeft: () => <HeaderBackButton />,
+              presentation: 'card',
+              gestureEnabled: true,
+              fullScreenGestureEnabled: true,
+            }}
+          />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
