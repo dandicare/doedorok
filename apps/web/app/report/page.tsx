@@ -86,28 +86,8 @@ export default function ReportPage(): React.JSX.Element {
                 핵심이에요.”
               </div>
               {/* pill icon */}
-              <div className="mt-1 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
-                <svg width="34" height="34" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="capA" x1="12" y1="14" x2="44" y2="46" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#FF5A5F" />
-                      <stop offset="1" stopColor="#FF2D55" />
-                    </linearGradient>
-                    <linearGradient id="capB" x1="18" y1="18" x2="54" y2="54" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#FFD60A" />
-                      <stop offset="1" stopColor="#FF9F0A" />
-                    </linearGradient>
-                  </defs>
-                  <path
-                    d="M24 18c8.8 0 16 7.2 16 16v0c0 8.8-7.2 16-16 16S8 42.8 8 34v0c0-8.8 7.2-16 16-16z"
-                    fill="url(#capA)"
-                  />
-                  <path
-                    d="M40 18c8.8 0 16 7.2 16 16v0c0 8.8-7.2 16-16 16h-8V18h8z"
-                    fill="url(#capB)"
-                  />
-                  <path d="M32 18v32" stroke="rgba(0,0,0,0.18)" strokeWidth="2" />
-                </svg>
+              <div className="typo-display-xl mt-1 flex h-12 w-12 items-center justify-center rounded-full bg-white ">
+                💊
               </div>
             </div>
 
@@ -154,21 +134,14 @@ export default function ReportPage(): React.JSX.Element {
           {/* Data insight */}
           <section className="-mx-5 bg-white px-5 py-6">
             <div className="typo-body-m-m text-[#111]">데이터 인사이트</div>
-            <div className="mt-4 flex items-start justify-between gap-4">
+            <div className="mt-4 flex items-start justify-between gap-3">
               <div className="typo-title-m leading-[34px] tracking-[-0.2px] text-[#111]">
                 “밀가루(글루텐)를 먹은 날,
                 <br />
-                예민해질 확률이 높아요!”
+                예민해질 확률이 75% 높아요.”
               </div>
-              <div className="mt-1 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
-                    stroke="#111"
-                    strokeWidth="2"
-                  />
-                  <path d="M16.5 16.5 21 21" stroke="#111" strokeWidth="2" strokeLinecap="round" />
-                </svg>
+              <div className="typo-display-xl mt-1 flex h-12 w-12 items-center justify-center rounded-full bg-white ">
+                🔍
               </div>
             </div>
 
