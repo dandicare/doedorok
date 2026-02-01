@@ -13,6 +13,8 @@ import {
   type AfterMealCheckinRecord,
 } from '../../lib/feed-store';
 
+const SHOW_DEV_BUTTON = true;
+
 export default function Feed() {
   const router = useRouter();
   const [afterMeal, setAfterMeal] = useState<AfterMealCheckinRecord[]>([]);
@@ -244,28 +246,30 @@ export default function Feed() {
       </main>
 
       {/* 우측 하단 플로팅 버튼: 아직 연결되지 않은 dev 페이지로 진입 */}
-      <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+16px)] pointer-events-none">
-        <div className="mx-auto max-w-[420px] px-5 flex justify-end gap-3">
-          <button
-            type="button"
-            onClick={onGoDev}
-            aria-label="Dev로 이동"
-            className="pointer-events-auto h-12 w-12 rounded-full bg-black text-white flex items-center justify-center shadow-lg shadow-black/20 active:scale-[0.98] transition-transform"
-          >
-            Dev
-          </button>
+      <div className="fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+32px)] pointer-events-none">
+        <div className="mx-auto max-w-[420px] px-7 flex justify-end gap-3">
+          {SHOW_DEV_BUTTON && (
+            <button
+              type="button"
+              onClick={onGoDev}
+              aria-label="Dev로 이동"
+              className="pointer-events-auto h-15 w-15 rounded-full bg-black text-white flex items-center justify-center shadow-lg shadow-black/20 active:scale-[0.98] transition-transform"
+            >
+              Dev
+            </button>
+          )}
 
           <button
             type="button"
             onClick={onGoStudentProfile}
             aria-label="학생 프로필로 이동"
-            className="pointer-events-auto h-12 w-12 rounded-full overflow-hidden bg-white shadow-lg shadow-black/20 active:scale-[0.98] transition-transform relative"
+            className="pointer-events-auto h-15 w-15 rounded-full overflow-hidden bg-white shadow-lg shadow-black/20 active:scale-[0.98] transition-transform relative"
           >
             <Image
               src="/image3.png"
               alt="학생 프로필"
               fill
-              sizes="48px"
+              sizes="60px"
               className="object-cover"
               priority
             />
