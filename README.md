@@ -1,135 +1,134 @@
-# Turborepo starter
+# DandiCare
 
-This Turborepo starter is maintained by the Turborepo core team.
+DandiCare는 특수교육 대상 학생들의 일상 관리와 소통을 위한 모바일 앱입니다. 보호자, 교사, 학생이 함께 사용하여 식사, 수업, 건강 상태를 실시간으로 공유하고 관리할 수 있습니다.
 
-## Using this example
+## 프로젝트 구조
 
-Run the following command:
+이 프로젝트는 Turborepo를 사용한 모노레포 구조로, 다음과 같은 앱들을 포함합니다:
 
-```sh
-npx create-turbo@latest
+### Apps
+
+- **`app/`**: React Native (Expo) 모바일 앱
+- **`web/`**: Next.js 웹 애플리케이션
+
+## 주요 기능
+
+### 🏠 홈 & 인증
+- **소셜 로그인**: 카카오, 네이버, 구글 계정으로 간편 로그인
+- **반응형 인트로**: 애니메이션이 포함된 앱 소개 화면
+
+### 📱 피드 시스템
+- **실시간 피드**: 식사, 수업, 건강 상태 기록을 시간순으로 표시
+- **역할별 메시지**: 보호자, 교사, 도우미별 구분된 메시지 표시
+- **상태 태그**: 정상, 주의사항, 완료 상태를 시각적으로 표시
+- **읽음 확인**: 교사의 메시지 확인 상태 표시
+
+### 🍽️ 보호자 기능
+- **식후 체크인**: 3단계 식사 기록 시스템
+  - 식사량, 시간, 음식 종류 입력
+  - 주의사항 선택 (밀가루, 유제품, 매운음식, 당분, 카페인, 과식)
+  - 복용 약물 기록
+  - 특이사항 메모
+- **아침 체크인**: 수면 상태 및 컨디션 기록
+
+### 👩‍🏫 교사 기능
+- **수업 기록 작성**: 체계적인 수업 후 기록 시스템
+  - 출결사항 (출석, 결석, 지각, 조퇴)
+  - 당일 기분 상태
+  - 주요 활동 (체육, 창작, 감각통합, 교과수업)
+  - 참여도 평가
+  - 특이사항 기록
+- **학생 관리**: 담당 학생들의 상태 모니터링
+
+### 👨‍🎓 학생 기능
+- **프로필 관리**: 개인 정보 및 상태 확인
+- **기록 조회**: 자신의 일일 기록 열람
+
+### 📊 리포트 시스템
+- **종합 리포트**: 일일/주간/월간 상태 요약
+- **데이터 시각화**: 그래프와 차트로 상태 변화 추이 표시
+
+## 기술 스택
+
+### 모바일 앱 (`app/`)
+- **React Native**: 크로스 플랫폼 모바일 개발
+- **Expo**: 개발 및 배포 플랫폼
+- **Expo Router**: 파일 기반 네비게이션
+- **WebView**: 웹 컨텐츠 임베딩
+- **Native Bridge**: 네이티브-웹 간 통신
+
+### 웹 애플리케이션 (`web/`)
+- **Next.js 16**: React 기반 풀스택 프레임워크
+- **TypeScript**: 정적 타입 검사
+- **Tailwind CSS**: 유틸리티 기반 CSS 프레임워크
+- **React Spring**: 애니메이션 라이브러리
+
+### 공통 UI 컴포넌트
+- **Button**: 다양한 스타일의 버튼 컴포넌트
+- **ChatMessage**: 피드용 메시지 컴포넌트
+- **EditableText**: 인라인 텍스트 편집
+- **MealPrompt**: 식사 기록 유도 컴포넌트
+- **StudentList**: 학생 목록 표시
+- **Textarea**: 멀티라인 텍스트 입력
+- **ToggleChip**: 선택 가능한 태그 컴포넌트
+
+## 개발 환경 설정
+
+### 필수 요구사항
+- Node.js 18+
+- pnpm (패키지 매니저)
+- Expo CLI (모바일 앱 개발용)
+
+### 설치 및 실행
+
+```bash
+# 의존성 설치
+pnpm install
+
+# 웹 애플리케이션 개발 서버 실행
+pnpm dev --filter=web
+
+# 모바일 앱 개발 서버 실행
+pnpm dev --filter=app
+
+# 전체 프로젝트 빌드
+pnpm build
+
+# 린팅
+pnpm lint
 ```
 
-## What's inside?
+### 모바일 앱 실행
+```bash
+cd apps/app
 
-This Turborepo includes the following packages/apps:
+# iOS 시뮬레이터
+pnpm ios
 
-### Apps and Packages
+# Android 에뮬레이터
+pnpm android
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+# 웹 브라우저
+pnpm web
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## 아키텍처
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+### 하이브리드 앱 구조
+- **네이티브 셸**: React Native로 구현된 네이티브 컨테이너
+- **웹뷰 컨텐츠**: Next.js로 구현된 실제 UI 및 비즈니스 로직
+- **브릿지 통신**: 네이티브와 웹뷰 간 양방향 메시지 통신
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+### 상태 관리
+- **로컬 스토리지**: 세션 기반 임시 데이터 저장
+- **피드 스토어**: 실시간 피드 데이터 관리
+- **네이티브 브릿지**: 앱 간 데이터 동기화
 
-### Develop
+### 반응형 디자인
+- **모바일 우선**: 모바일 환경에 최적화된 UI/UX
+- **터치 친화적**: 큰 터치 영역과 직관적인 제스처
+- **접근성**: 스크린 리더 및 접근성 도구 지원
 
-To develop all apps and packages, run the following command:
+## 라이선스
 
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+이 프로젝트는 MIT 라이선스 하에 배포됩니다.
