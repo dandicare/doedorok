@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 
 const COLORS = {
   primary: "#FF8C00",
   text: "#111111",
   subtext: "#8E8E93",
   divider: "#EDEDED",
-  card: "#F4F4F5",
+  card: "#fafafa",
   chipBg: "#F2F2F2",
 } as const;
 
@@ -22,7 +21,6 @@ const AREA_TABS: Array<{ key: AreaKey; label: string }> = [
 ];
 
 export default function ReportPage(): React.JSX.Element {
-  const router = useRouter();
   const [area, setArea] = useState<AreaKey>("sleep");
 
   const areaData = useMemo(() => {
@@ -91,40 +89,40 @@ export default function ReportPage(): React.JSX.Element {
               </div>
             </div>
 
-            <div className="mt-6 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="typo-body-m-r text-[#111]">평균 컨디션</div>
-                <div className="typo-body-m-m text-[#111]">보통 (Level 2)</div>
+            <div className="mt-6 space-y-2">
+              <div className="grid grid-cols-[108px_1fr] items-center gap-x-3">
+                <div className="typo-body-m-r text-[#323232]">평균 컨디션</div>
+                <div className="typo-body-m-m text-[#6b6b6b]">보통 (Level 2)</div>
               </div>
-              <div className="h-px w-full bg-[--divider]" style={{ ["--divider" as any]: COLORS.divider }} />
-              <div className="flex items-start justify-between gap-4">
-                <div className="typo-body-m-r text-[#111]">최고의 날</div>
-                <div className="text-right">
-                  <div className="typo-body-m-m text-[#111]">1월 15일</div>
-                  <div className="typo-body-m-r mt-0.5 text-[#8E8E93]">
+              <div className="h-px w-full bg-[--divider]" style={{ ["--divider" as string]: COLORS.divider }} />
+              <div className="grid grid-cols-[108px_1fr] items-start gap-x-4">
+                <div className="typo-body-m-r text-[#323232]">최고의 날</div>
+                <div>
+                  <div className="typo-body-m-m text-[#6b6b6b]">1월 15일</div>
+                  <div className="typo-body-m-r mt-0.5 text-[#c3c3c3]">
                     14일 연속 복용 이행률 100%, 기분 최상
                   </div>
                 </div>
               </div>
-              <div className="flex items-start justify-between gap-4">
-                <div className="typo-body-m-r text-[#111]">힘들었던 날</div>
-                <div className="text-right">
-                  <div className="typo-body-m-m text-[#111]">1월 23일</div>
-                  <div className="typo-body-m-r mt-0.5 text-[#8E8E93]">점심 약 미복용, 텐트럼 3회</div>
+              <div className="grid grid-cols-[108px_1fr] items-start gap-x-4">
+                <div className="typo-body-m-r text-[#323232]">힘들었던 날</div>
+                <div>
+                  <div className="typo-body-m-m text-[#6b6b6b]">1월 23일</div>
+                  <div className="typo-body-m-r mt-0.5 text-[#c3c3c3]">점심 약 미복용, 텐트럼 3회</div>
                 </div>
               </div>
             </div>
 
             {/* AI comment (belongs to monthly summary) */}
             <div
-              className="mt-6 rounded-[16px] px-4 py-4"
-              style={{ backgroundColor: COLORS.card, border: `1px solid ${COLORS.divider}` }}
+              className="mt-6 rounded-[16px] px-3 py-4.5"
+              style={{ backgroundColor: COLORS.card }}
             >
-              <div className="typo-body-m-m text-[#111]">AI 코멘트</div>
-              <div className="typo-body-l-m mt-2 text-[#111]">
-                지난달보다 돌발행동 빈도가 <span className="font-bold">15%</span> 감소했어요!
+              <div className="typo-body-m-m text-[#6b6b6b]">AI 코멘트</div>
+              <div className="typo-body-l-m mt-1.5 text-[#111]">
+                지난달보다 돌발행동 빈도가 <span className="font-bold typo-title-m">15% 감소</span>했어요!
               </div>
-              <div className="typo-body-m-r mt-2 text-[#6B7280]">
+              <div className="typo-body-m-r mt-2 text-[#7d7d7d] text-[14px]">
                 전반적으로 안정적이었으나, 약 복용이 누락되거나 시간이 1시간 이상 지연된 날 컨디션이 급격히
                 떨어지는 패턴이 보였습니다.
               </div>
@@ -145,36 +143,36 @@ export default function ReportPage(): React.JSX.Element {
               </div>
             </div>
 
-            <div className="mt-6 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="typo-body-m-r text-[#111]">글루텐 섭취 일수:</div>
-                <div className="typo-body-m-m text-[#111]">총 12일</div>
+            <div className="mt-6 space-y-2">
+              <div className="grid grid-cols-[156px_1fr] items-center gap-x-3">
+                <div className="typo-body-m-r text-[#323232]">글루텐 섭취 일수:</div>
+                <div className="typo-body-m-m text-[#6b6b6b]">총 12일</div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="typo-body-m-r text-[#111]">섭취 시 예민해질 확률:</div>
-                <div className="typo-body-m-m text-[#111]">75%</div>
+              <div className="grid grid-cols-[156px_1fr] items-center gap-x-3">
+                <div className="typo-body-m-r text-[#323232]">섭취 시 예민해질 확률:</div>
+                <div className="typo-body-m-m text-[#6b6b6b]">75%</div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="typo-body-m-r text-[#111]">“짜증/울음” 발생률:</div>
-                <div className="typo-body-m-m text-[#111]">
+              <div className="grid grid-cols-[156px_1fr] items-start gap-x-3">
+                <div className="typo-body-m-r text-[#323232]">“짜증/울음” 발생률:</div>
+                <div className="typo-body-m-m text-[#6b6b6b]">
                   평소 대비 <span className="font-bold">30%p</span> 높음
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="typo-body-m-r text-[#111]">유제품 섭취 시 영향:</div>
-                <div className="typo-body-m-m text-[#111]">미미함 (상관관계 낮음)</div>
+              <div className="grid grid-cols-[156px_1fr] items-start gap-x-3">
+                <div className="typo-body-m-r text-[#323232]">유제품 섭취 시 영향:</div>
+                <div className="typo-body-m-m text-[#6b6b6b]">미미함 (상관관계 낮음)</div>
               </div>
             </div>
 
             <div
-              className="mt-7 rounded-[16px] px-4 py-4"
-              style={{ backgroundColor: "#F7F7F7", border: `1px solid ${COLORS.divider}` }}
+              className="mt-6 rounded-[16px] px-3 py-4.5"
+              style={{ backgroundColor: COLORS.card }}
             >
-              <div className="typo-body-m-m text-[#6B7280]">제안 💡</div>
-              <div className="typo-body-l-m mt-2 text-[#111]">
+              <div className="typo-body-m-m text-[#6b6b6b]">제안 💡</div>
+              <div className="typo-body-l-m mt-1.5 text-[#111]">
                 다음 달에는 아침 식사에서 빵 대신
                 <br />
-                <span className="font-bold">밥이나 죽</span>으로 변경해 보는 것을 추천합니다.
+                <span className="font-bold typo-title-m">밥이나 죽</span>으로 변경해 보는 것을 추천합니다.
               </div>
             </div>
           </section>
@@ -232,7 +230,7 @@ export default function ReportPage(): React.JSX.Element {
               <div className="typo-title-m leading-[34px] tracking-[-0.2px] text-[#111]">
                 “복약 여부 꼼꼼하게 챙기기”
               </div>
-              <div className="typo-body-m-regular mt-3 text-[#6B7280]">
+              <div className="typo-body-m-r mt-3 text-[#6B7280]">
                 지난달 데이터에 따르면, 단디는 수면 리듬이 깨질 때 가장 힘들어했습니다. 이번 달은 주말에도
                 오전 8시 기상을 목표로 해볼까요?
               </div>
@@ -248,11 +246,11 @@ export default function ReportPage(): React.JSX.Element {
           >
             <button
               type="button"
-              className="typo-body-l-medium w-[140px] rounded-[14px] px-4 py-4 text-white active:opacity-90"
+              className="typo-body-l-m w-[140px] rounded-[14px] px-4 py-4 text-white active:opacity-90"
               style={{ backgroundColor: COLORS.primary }}
               onClick={() => {
                 if (typeof navigator !== "undefined" && "share" in navigator) {
-                  void (navigator as any).share?.({
+                  void (navigator as Navigator & { share?: (data: ShareData) => Promise<void> }).share?.({
                     title: "월별 레포트",
                     text: "월별 레포트를 공유합니다.",
                     url: typeof window !== "undefined" ? window.location.href : undefined,
@@ -264,7 +262,7 @@ export default function ReportPage(): React.JSX.Element {
             </button>
             <button
               type="button"
-              className="typo-body-l-medium flex-1 h-[60px] rounded-[14px] px-4 py-4 active:bg-black/5"
+              className="typo-body-l-m flex-1 h-[60px] rounded-[14px] px-4 py-4 active:bg-black/5"
               style={{ border: `1.5px solid ${COLORS.primary}`, color: COLORS.primary, backgroundColor: "#fff" }}
               onClick={() => alert("PDF 저장 기능은 다음 단계에서 연결할게요.")}
             >
